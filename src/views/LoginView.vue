@@ -23,8 +23,9 @@
 </template>
 
 <script>
-import { postRequest, getKaptchaRequest } from '../request/index'
+import { getKaptchaRequest } from '../request/index'
 import { LOGIN_PATH, KAPTCHA_PATH } from '../config/requestConfig'
+import store from '../stores/index'
 export default {
   data() {
     return {
@@ -40,12 +41,16 @@ export default {
     this.refreshkaptcha()
   },
   methods: {
+    async fetchToken(url) {
+      await store.dispatch('common/fetchToken', { url: url })
+      // 'storeModuleName'为store的模块名，如果没有模块化则为''
+    },
     login() {
       // 进行登录操作
       const url = LOGIN_PATH + '?' + 'userName=' + this.username + '&password=' + this.password
       //将校验放到前端，验证码校验通过才请求登录接口
       if (this.kaptcha === this.kaptchaCode) {
-        postRequest(url)
+        this.fetchToken(url)
       }
     },
     async refreshkaptcha() {
