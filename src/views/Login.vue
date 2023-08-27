@@ -62,7 +62,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .login {
   display: flex;
   flex-direction: column;
