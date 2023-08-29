@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ShopDetail from '../views/ShopDetail.vue'
+import ShopCategory from '../views/ShopCategory.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/shopdetail/:shopId',
       name: 'shopdetail',
       component:ShopDetail
+    },
+    {
+      path:'/category/:shopId',
+      name:'category',
+      component:ShopCategory
     }
   ]
 })

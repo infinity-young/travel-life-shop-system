@@ -98,9 +98,9 @@ export default defineComponent({
       //商品管理页
       console.log('=====gotoproductmange===')
     },
-    goToCategoryManage() {
+    goToCategoryManage(shopId) {
       //类别管理页
-      console.log('=====gotocategorymange===')
+      router.push({ name: 'category', params: { shopId } })
     },
     logOut() {
       //登出
