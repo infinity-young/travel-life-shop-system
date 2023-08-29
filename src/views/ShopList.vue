@@ -35,7 +35,6 @@
 import { defineComponent } from 'vue'
 import { getRequest } from '../request/index'
 import { SHOP_LIST_PATH } from '../config/requestConfig'
-import store from '../stores/index'
 import router from '../router/index'
 
 export default defineComponent({
@@ -79,12 +78,11 @@ export default defineComponent({
   //   }
   // },
   mounted() {
-    // 页面加载时，获取验证码图片
+    // 页面加载时，获取页面数据
     this.getListData()
   },
   methods: {
     async getListData() {
-      console.log('===dd====' + store.getters['common/getToken'])
       const data = await getRequest(SHOP_LIST_PATH)
       this.shopList = data?.data?.shopList
     },
@@ -112,16 +110,6 @@ export default defineComponent({
       //账号修改
       console.log('=====modifyAccount=====')
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    // 处理路由的切换
-    console.log(`Leaving from ${from.path} to ${to.path}`)
-    next()
-  },
-  beforeRouteEnter(to, from, next) {
-    // 处理组件的渲染
-    console.log(`Entering to ${to.path} from ${from.path}`)
-    next()
   }
 })
 </script>

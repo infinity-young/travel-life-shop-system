@@ -43,7 +43,6 @@ export default {
   methods: {
     async fetchToken(url) {
       await store.dispatch('common/fetchToken', { url: url })
-      // 'storeModuleName'为store的模块名，如果没有模块化则为''
     },
     login() {
       // 进行登录操作

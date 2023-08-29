@@ -1,16 +1,23 @@
 import axios from 'axios';
 import { BATH_PATH } from '../config/requestConfig';
-export function getRequest(path:string,params?){
-    const requetParams={
-      token:token,
-      ...params
-    }
-    const fullPath=BATH_PATH+path;
-    return new Promise((resolve,reject)=>{
-        axios.get(fullPath,requetParams )
-        .then((response)=>{ resolve(response)})
-        .catch((error)=>{reject(error)})
-    })
+
+export function getRequest(path: string, params?: Record<string, any>) {
+  const requestParams = {
+    token: token,
+    ...params
+  };
+  const fullPath = BATH_PATH + path;
+  const searchParams = new URLSearchParams(requestParams);
+  return new Promise((resolve, reject) => {
+    axios
+      .get(fullPath, { params: searchParams })
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 //token 已经放入store中可以上层可以从store中取
 const token =	 "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlcm5hbWUiLCJpYXQiOjE2OTI4OTk2MzMsImV4cCI6MTY5Mjg5OTY3M30.t6RC8kayNReFZhgLOGqkiUVOQb1a0YIq6uBMKIbZwM0"
