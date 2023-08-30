@@ -22,7 +22,7 @@ const router = createRouter({
       component: () => import('../views/ShopList.vue')
     },
     {
-      path: '/shopdetail/:shopId',
+      path: '/shopdetail/:shopId?',
       name: 'shopdetail',
       component:ShopDetail
     },
@@ -32,17 +32,17 @@ const router = createRouter({
       component:ShopCategory
     },
     {
-      path:'/productmanagement',
+      path:'/productmanagement/:shopId',
       name:'productmanagement',
       component:ProductManagement
     },
     {
-      path:'/productpreview',
+      path:'/productpreview/:shopId/:productId',
       name:'productpreview',
       component:ProductPreview
     },
     {
-      path:'/productdetial',
+      path:'/productdetial/:shopId/:productId?',
       name:'productdetail',
       component:ProductDetail
     }

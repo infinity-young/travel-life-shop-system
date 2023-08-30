@@ -79,11 +79,14 @@ export default defineComponent({
           shop: null
         }
       ],
-      count: []
+      count: [],
+      shopId: null
     }
   },
   mouted() {
     //页面初始化的时候请求页面数据,从store中获取
+    this.shopId = this.$route.params.shopId
+    console.log('===ss======' + JSON.stringify(this.shopId))
   },
   methods: {
     //
@@ -92,8 +95,11 @@ export default defineComponent({
     // }
     //点击编辑
     editProduct(productId) {
-      //
-      router.push({ name: 'productdetail', params: { productId } })
+      //跳转商品编辑页
+      console.log(
+        '=========productId=' + JSON.stringify(productId) + '----' + JSON.stringify(this.shopId)
+      )
+      router.push({ name: 'productdetail', params: { productId: productId, shopId: this.shopId } })
     },
     //点击下架
     offProduct(prodcutId) {

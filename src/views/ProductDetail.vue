@@ -1,12 +1,163 @@
 <template>
   <span>Product Detail</span>
+  <div>
+    <form>
+      <div>
+        <label for="productName">商品名称</label>
+        <input type="text" id="productName" v-model="productName" />
+      </div>
+      <div>
+        <label for="shopArea1">目录：</label>
+        <selectModel
+          :options="productCategoryList"
+          :selectedOption="productCategory"
+          v-on:update:selectedOption="selectedCategoryOptionChange"
+        />
+      </div>
+      <div>
+        <label for="priority">优先级：</label>
+        <input type="text" id="priority" v-model="priority" />
+      </div>
+      <div>
+        <label for="normalPrice">原价：</label>
+        <input type="text" id="normalPrice" v-model="normalPrice" />
+      </div>
+      <div>
+        <label for="promotionPrice">现价</label>
+        <input type="text" id="promotionPrice" v-model="promotionPrice" />
+      </div>
+      <div>
+        <label for="shopImage">缩略图</label>
+        <input type="file" id="shopImage" @change="handleImageChange" />
+        <!-- <img :src="shop.shopImg" v-if="shop.shopImg" /> 是否需要添加展示模块-->
+      </div>
+      <div>
+        <label for="shopImage">详情图</label>
+        <input type="file" id="shopImage" @change="handleImageChange" />
+        <!-- <img :src="shop.shopImg" v-if="shop.shopImg" /> 是否需要添加展示模块-->
+      </div>
+      <div>
+        <label for="productDesc">商品描述</label>
+        <input type="text" id="productDesc" v-model="productDesc" />
+      </div>
+      <div>
+        <label for="kaptchaUrl">验证码</label>
+        <img :src="kaptchaUrl" />
+        <input type="text" id="kaptchaInput" v-model="kaptchaInput" />
+      </div>
+      <button type="submit" @click="goBack">返回商品管理</button>
+      <button type="submit" @click.prevent="submitProductModify">提交</button>
+    </form>
+  </div>
 </template>
 <script>
 import { defineComponent } from 'vue'
+import { PRODUCT_PATH, PRODUCT_MODIFY_PATH, KAPTCHA_PATH } from '../config/requestConfig'
+import { getRequest, getKaptchaRequest, postRequest } from '../request/index'
+import selectModel from '../components/selectModel.vue'
+import store from '../stores/index'
 
 export default defineComponent({
+  components: {
+    selectModel
+  },
   data() {
-    //
+    return {
+      product: {},
+      productCategoryList: [],
+      productName: '',
+      productCategory: {
+        name: '',
+        id: ''
+      },
+      priority: '',
+      normalPrice: '',
+      promotionPrice: '',
+      productImageList: [],
+      imgAdd: '',
+      productDesc: '',
+      kaptchaUrl: '',
+      kaptchaInput: '',
+      kaptchaCode: '',
+      shopId: '',
+      productId: ''
+    }
+  },
+  mounted() {
+    //加载的时候请求页面数据
+    this.shopId = this.$route.params.shopId
+    this.productId = this.$route.params.productId
+    this.getProductInfo()
+    this.refreshkaptcha()
+  },
+  methods: {
+    //获取页面信息
+    async getProductInfo() {
+      const params = {
+        shopId: this.shopId,
+        productId: this.productId
+      }
+      const data = await getRequest(PRODUCT_PATH, params)
+      const product = data?.data?.product || {}
+      this.product = product
+      this.productName = product.productName
+      this.priority = product.priority
+      this.normalPrice = product.normalPrice
+      this.promotionPrice = product.promotionPrice
+      this.imgAdd = product.imgAdd
+      this.productDesc = product.productDesc
+      this.productCategoryList = data?.data?.productCategoryList?.map((item) => {
+        const newItem = {
+          name: item.productCategoryName,
+          id: item.productCategoryId
+        }
+        return newItem
+      })
+      const selectedCategory =
+        this.getSelectedProductCategory(
+          product.productCategory?.productCategoryId,
+          this.productCategoryList
+        ) || {}
+      this.productCategory = {
+        name: selectedCategory.name,
+        id: selectedCategory.id
+      }
+    },
+    getSelectedProductCategory(id, productCategoryList) {
+      return productCategoryList?.find((category) => category.id === id)
+    },
+    //获取token信息
+    async fetchToken(url) {
+      const token = await store.dispatch('common/fetchToken', { url: url })
+      this.token = token
+    },
+    //获取验证码信息
+    async refreshkaptcha() {
+      const kaptchaData = await getKaptchaRequest(KAPTCHA_PATH)
+      this.kaptchaUrl = kaptchaData.url
+      this.kaptchaCode = kaptchaData.kaptchaCode
+    },
+    //提交修改信息
+    submitProductModify() {
+      if (this.kaptchaCode === this.kaptchaInput) {
+        const data = {
+          productName: this.productName,
+          productDesc: this.productDesc,
+          priority: this.priority,
+          normalPrice: this.normalPrice,
+          promotionPrice: this.promotionPrice,
+          productCategory: {
+            productCategoryId: this.productCategoryId
+          },
+          productId: this.productId
+        }
+        postRequest(PRODUCT_MODIFY_PATH, data)
+      }
+    },
+    //返回上一个页面
+    goBack() {
+      //
+    }
   }
 })
 </script>
