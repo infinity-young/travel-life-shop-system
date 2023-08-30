@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ShopDetail from '../views/ShopDetail.vue'
 import ShopCategory from '../views/ShopCategory.vue'
+import ProductManagement from '../views/ProductManagement.vue'
+import ProductPreview from '../views/ProductPreview.vue'
+import ProductDetail from '../views/ProductDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +30,21 @@ const router = createRouter({
       path:'/category/:shopId',
       name:'category',
       component:ShopCategory
+    },
+    {
+      path:'/productmanagement',
+      name:'productmanagement',
+      component:ProductManagement
+    },
+    {
+      path:'/productpreview',
+      name:'productpreview',
+      component:ProductPreview
+    },
+    {
+      path:'/productdetial',
+      name:'productpreview',
+      component:ProductDetail
     }
   ]
 })

@@ -40,7 +40,7 @@
 import { defineComponent } from 'vue'
 import { CATEGORY_PATH, ADD_CATEGORY_PATH, REMOVE_CATEGORY_PATH } from '../config/requestConfig'
 import { getRequest, postRequest } from '../request/index'
-
+//todo 将新增的提交按钮分离出来
 export default defineComponent({
   data() {
     //存放页面数据

@@ -19,8 +19,8 @@
           <td>{{ shop.shopName }}</td>
           <td>{{ shop.advice }}</td>
           <td @click="goToShopDetail(shop.shopId)">进入</td>
-          <td @click="goToProductManage">进入</td>
-          <td @click="goToCategoryManage">进入</td>
+          <td @click="goToProductManage(shop.shopId)">进入</td>
+          <td @click="goToCategoryManage(shop.shopId)">进入</td>
         </tr>
       </tbody>
     </table>
@@ -87,16 +87,17 @@ export default defineComponent({
       this.shopList = data?.data?.shopList
     },
     addShop() {
-      //添加店铺
+      //添加店铺,店铺编辑页的shopId设置为可选，使用店铺编辑页作为店铺新增页
       console.log('====addshop===')
     },
     goToShopDetail(shopId) {
       //店铺编辑页
       router.push({ name: 'shopdetail', params: { shopId } })
     },
-    goToProductManage() {
+    goToProductManage(shopId) {
       //商品管理页
       console.log('=====gotoproductmange===')
+      router.push({ name: 'productmanagement', params: { shopId } })
     },
     goToCategoryManage(shopId) {
       //类别管理页

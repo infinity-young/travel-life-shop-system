@@ -12,36 +12,36 @@ export function getRequest(path: string, params?: Record<string, any>) {
     axios
       .get(fullPath, { params: searchParams })
       .then((response) => {
-        const re={
-          "success": true,
-          "data": [
-              {
-                  "productCategoryId": 23,
-                  "shopId": 1,
-                  "productCategoryName": "套房",
-                  "priority": 200,
-                  "createTime": null
-              },
-              {
-                  "productCategoryId": 24,
-                  "shopId": 1,
-                  "productCategoryName": "大床房",
-                  "priority": 100,
-                  "createTime": null
-              },
-              {
-                  "productCategoryId": 25,
-                  "shopId": 1,
-                  "productCategoryName": "双床房",
-                  "priority": 50,
-                  "createTime": null
-              }
-          ],
-          "errorMsg": null,
-          "errorCode": 0
-      }
-        // resolve(response);
-        resolve(re)
+      //   const re={
+      //     "success": true,
+      //     "data": [
+      //         {
+      //             "productCategoryId": 23,
+      //             "shopId": 1,
+      //             "productCategoryName": "套房",
+      //             "priority": 200,
+      //             "createTime": null
+      //         },
+      //         {
+      //             "productCategoryId": 24,
+      //             "shopId": 1,
+      //             "productCategoryName": "大床房",
+      //             "priority": 100,
+      //             "createTime": null
+      //         },
+      //         {
+      //             "productCategoryId": 25,
+      //             "shopId": 1,
+      //             "productCategoryName": "双床房",
+      //             "priority": 50,
+      //             "createTime": null
+      //         }
+      //     ],
+      //     "errorMsg": null,
+      //     "errorCode": 0
+      // }
+      // resolve(re)
+        resolve(response);
       })
       .catch((error) => {
         reject(error);

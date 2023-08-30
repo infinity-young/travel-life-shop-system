@@ -1,5 +1,5 @@
 <template>
-  <span>Product Detail</span>
+  <span>product management</span>
 </template>
 <script>
 import { defineComponent } from 'vue'
@@ -10,6 +10,5 @@ export default defineComponent({
   }
 })
 </script>
-
 <style scoped>
 </style>
