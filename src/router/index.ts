@@ -43,7 +43,7 @@ const router = createRouter({
     },
     {
       path:'/productdetial',
-      name:'productpreview',
+      name:'productdetail',
       component:ProductDetail
     }
   ]
