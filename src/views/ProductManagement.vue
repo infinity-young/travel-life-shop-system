@@ -102,12 +102,13 @@ export default defineComponent({
       router.push({ name: 'productdetail', params: { productId: productId, shopId: this.shopId } })
     },
     //点击下架
-    offProduct(prodcutId) {
+    offProduct(productId) {
       //
     },
     //点击预览
-    previewProduct(prodcutId) {
-      //
+    previewProduct(productId) {
+      //跳转产品预览页
+      router.push({ name: 'productpreview', params: { productId: productId } })
     },
     //点击返回
     goBack() {
