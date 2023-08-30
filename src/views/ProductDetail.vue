@@ -8,7 +8,7 @@
       </div>
       <div>
         <label for="shopArea1">目录：</label>
-        <selectModel
+        <SelectModel
           :options="productCategoryList"
           :selectedOption="productCategory"
           v-on:update:selectedOption="selectedCategoryOptionChange"
@@ -54,12 +54,12 @@
 import { defineComponent } from 'vue'
 import { PRODUCT_PATH, PRODUCT_MODIFY_PATH, KAPTCHA_PATH } from '../config/requestConfig'
 import { getRequest, getKaptchaRequest, postRequest } from '../request/index'
-import selectModel from '../components/selectModel.vue'
+import SelectModel from '../components/SelectModel.vue'
 import store from '../stores/index'
 
 export default defineComponent({
   components: {
-    selectModel
+    SelectModel
   },
   data() {
     return {

@@ -8,7 +8,7 @@
       </div>
       <div>
         <label for="shopArea1">商铺分类：</label>
-        <selectModel
+        <SelectModel
           :options="shopCategoryList"
           :selectedOption="shopCategory"
           v-on:update:selectedOption="selectedCategoryOptionChange"
@@ -16,7 +16,7 @@
       </div>
       <div>
         <label for="shopArea">所属区域：</label>
-        <selectModel
+        <SelectModel
           :options="areaList"
           :selectedOption="area"
           v-on:update:selectedOption="selectedAreaOptionChange"
@@ -52,12 +52,12 @@
 import { defineComponent } from 'vue'
 import { getRequest, getKaptchaRequest, postRequest } from '../request/index'
 import { SHOP_INFO_PATH, SHOP_PATH, KAPTCHA_PATH, MODITY_SHOP_PATH } from '../config/requestConfig'
-import selectModel from '../components/selectModel.vue'
+import SelectModel from '../components/SelectModel.vue'
 import store from '../stores/index'
 
 export default defineComponent({
   components: {
-    selectModel
+    SelectModel
   },
   data() {
     return {

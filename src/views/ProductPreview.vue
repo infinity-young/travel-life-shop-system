@@ -1,5 +1,6 @@
 <template>
   <span>Product Preview</span>
+  <BackModel :title="product.productName" />
   <div>
     <div class="header-image">
       <img :src="headImage" alt="Header Image" />
@@ -23,8 +24,12 @@
 import { defineComponent } from 'vue'
 import { PRODUCT_DETAIL_INFO_PATH, IMAGE_PATH } from '../config/requestConfig'
 import { getRequest } from '../request/index'
+import BackModel from '../components/BackModel.vue'
 
 export default defineComponent({
+  components: {
+    BackModel
+  },
   data() {
     return {
       product: {},

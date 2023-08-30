@@ -24,28 +24,11 @@ export default {
     }
   },
   watch: {
-    localSelectedOption(newValue, oldValue) {
-      console.log(
-        'localSelectedOption changed from' +
-          JSON.stringify(oldValue) +
-          'to' +
-          JSON.stringify(newValue)
-      )
+    localSelectedOption(newValue) {
       this.$emit('update:selectedOption', newValue)
     },
-    selectedOption(newValue, oldValue) {
-      console.log(
-        '====selectedOption===item====' +
-          JSON.stringify(oldValue) +
-          '======' +
-          JSON.stringify(newValue)
-      )
+    selectedOption(newValue) {
       this.localSelectedOption = newValue
-    },
-    options(newValue, oldVal) {
-      console.log(
-        '=====options==item==' + JSON.stringify(oldVal) + '======' + JSON.stringify(newValue)
-      )
     }
   }
 }
