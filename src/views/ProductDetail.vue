@@ -45,7 +45,7 @@
         <img :src="kaptchaUrl" />
         <input type="text" id="kaptchaInput" v-model="kaptchaInput" />
       </div>
-      <button type="submit" @click="goBack">返回商品管理</button>
+      <button type="submit" @click.prevent="goBack">返回商品管理</button>
       <button type="submit" @click.prevent="submitProductModify">提交</button>
     </form>
   </div>
@@ -156,7 +156,8 @@ export default defineComponent({
     },
     //返回上一个页面
     goBack() {
-      //
+      //如果不使用@click.prevent而使用@click绑定goBack函数则无法正常返回上一级页面
+      this.$router.back()
     }
   }
 })

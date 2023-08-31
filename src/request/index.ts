@@ -51,13 +51,33 @@ export function getRequest(path: string, params?: Record<string, any>) {
 //token 已经放入store中可以上层可以从store中取
 const token =	 "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlcm5hbWUiLCJpYXQiOjE2OTI4OTk2MzMsImV4cCI6MTY5Mjg5OTY3M30.t6RC8kayNReFZhgLOGqkiUVOQb1a0YIq6uBMKIbZwM0"
 
-export function postRequest(path:string,params?){
+export function postRequestJson(path:string,params?){
   const fullPath=BATH_PATH+path;
   return new Promise((resolve,reject)=>{
     axios.post(fullPath,JSON.stringify(params), {
       headers: {
         'Content-Type': 'application/json'
       }
+    }).then(
+     (response)=>{
+      console.log('======='+JSON.stringify(response))
+      resolve(response)
+     }
+    ).catch(
+     (error)=>{
+      reject(error)
+     }
+    );
+  })
+}
+export function postRequest(path:string,params?){
+  const fullPath=BATH_PATH+path;
+  return new Promise((resolve,reject)=>{
+    axios.post(fullPath,params, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      responseType: 'json'
     }).then(
      (response)=>{
       console.log('======='+JSON.stringify(response))

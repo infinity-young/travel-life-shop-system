@@ -51,7 +51,13 @@
 <script>
 import { defineComponent } from 'vue'
 import { getRequest, getKaptchaRequest, postRequest } from '../request/index'
-import { SHOP_INFO_PATH, SHOP_PATH, KAPTCHA_PATH, MODITY_SHOP_PATH } from '../config/requestConfig'
+import {
+  SHOP_INFO_PATH,
+  SHOP_PATH,
+  KAPTCHA_PATH,
+  MODITY_SHOP_PATH,
+  ADD_SHOP_PATH
+} from '../config/requestConfig'
 import SelectModel from '../components/SelectModel.vue'
 import store from '../stores/index'
 
@@ -68,6 +74,7 @@ export default defineComponent({
       shopName: '',
       shopDesc: '',
       shopAddr: '',
+      img: '',
       phone: '',
       shopCategory: {},
       area: {},
@@ -130,8 +137,7 @@ export default defineComponent({
     },
     //选择店铺图片
     handleImageChange(event) {
-      const file = event.target.files[0]
-      this.shop.shopImg = URL.createObjectURL(file)
+      this.img = event.target.files[0]
     },
     //获取token信息
     async fetchToken(url) {
@@ -152,12 +158,13 @@ export default defineComponent({
     selectedAreaOptionChange(option) {
       this.areaId = option.id
     },
+    //todo 两个post接口的图片还有问题
     //点击提交先校验验证码，验证码无误后再提交到后端
     submitShop() {
-      //校验验证码
-      if (this.kaptchaCode == this.kaptchaInput) {
+      //校验验证码通过并有shopId则走店铺修改接口
+      if ((this.kaptchaCode == this.kaptchaInput) & this.shopId) {
         //提交店铺修改数据
-        const data = {
+        const shopData = {
           shopId: this.shopId,
           shopName: this.shopName,
           shopAddr: this.shopAddr,
@@ -170,7 +177,32 @@ export default defineComponent({
             areaId: this.areaId
           }
         }
-        postRequest(MODITY_SHOP_PATH, data)
+        //此处提交的头图会替换掉已经上传的头图
+        const formData = new FormData()
+        formData.append('shopStr', JSON.stringify(shopData))
+        //头图的传递还需要调试
+        formData.append('shopImg', this.img)
+        postRequest(MODITY_SHOP_PATH, formData)
+      } else if (this.kaptchaCode == this.kaptchaInput) {
+        //如果验证码通过无shopId走添加店铺接口
+        const shopData = {
+          shopName: this.shopName,
+          shopAddr: this.shopAddr,
+          phone: this.phone,
+          shopDesc: this.shopDesc,
+          shopCategory: {
+            shopCategoryId: this.shopCategoryId
+          },
+          area: {
+            areaId: this.areaId
+          }
+        }
+        //此处提交的头图会替换掉已经上传的头图
+        const formData = new FormData()
+        formData.append('shopStr', JSON.stringify(shopData))
+        //头图的传递还需要调试
+        formData.append('shopImg', this.img)
+        postRequest(ADD_SHOP_PATH, formData)
       }
     }
   }

@@ -88,7 +88,7 @@ export default defineComponent({
     },
     addShop() {
       //添加店铺,店铺编辑页的shopId设置为可选，使用店铺编辑页作为店铺新增页
-      console.log('====addshop===')
+      router.push({ name: 'shopdetail' })
     },
     goToShopDetail(shopId) {
       //店铺编辑页

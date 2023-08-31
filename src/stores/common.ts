@@ -1,4 +1,4 @@
-import { postRequest } from '@/request'
+import { postRequestJson } from '@/request'
 
  const state={
     token:'',
@@ -11,7 +11,7 @@ import { postRequest } from '@/request'
   const actions={
      async fetchToken({ commit},payload) {
     try {
-      const response = await postRequest(payload.url)
+      const response = await postRequestJson(payload.url)
       commit('setToken', response.data.token)
     } catch (error) {
       console.error(error)

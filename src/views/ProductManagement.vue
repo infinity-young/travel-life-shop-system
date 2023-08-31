@@ -1,5 +1,6 @@
 <template>
   <span>product management</span>
+  <BackModel title="商品管理" />
   <table>
     <thead>
       <tr>
@@ -11,9 +12,9 @@
       <tr v-for="product in productList" :key="product.productId">
         <td>{{ product.productName }}</td>
         <td>
-          <button @click="editProduct(product.productId)">编辑</button>
-          <button @click="offProduct(product.productId)">下架</button>
-          <button @click="previewProduct(product.productId)">预览</button>
+          <button @click="editProduct(product.productId)" class="editable-button">编辑</button>
+          <button @click="offProduct(product.productId)" class="editable-button">下架</button>
+          <button @click="previewProduct(product.productId)" class="editable-button">预览</button>
         </td>
       </tr>
     </tbody>
@@ -28,8 +29,12 @@ import { defineComponent } from 'vue'
 import router from '../router/index'
 import { PRODUCT_LIST_PATH } from '../config/requestConfig'
 import { getRequest } from '../request/index'
+import BackModel from '../components/BackModel.vue'
 
 export default defineComponent({
+  components: {
+    BackModel
+  },
   data() {
     return {
       productList: [
@@ -96,9 +101,6 @@ export default defineComponent({
     //点击编辑
     editProduct(productId) {
       //跳转商品编辑页
-      console.log(
-        '=========productId=' + JSON.stringify(productId) + '----' + JSON.stringify(this.shopId)
-      )
       router.push({ name: 'productdetail', params: { productId: productId, shopId: this.shopId } })
     },
     //点击下架
@@ -112,14 +114,27 @@ export default defineComponent({
     },
     //点击返回
     goBack() {
-      //
+      this.$router.back()
     },
-    //点击新增商品,shopId似乎也应该传进来。
+    //点击新增商品
     add() {
-      //
+      router.push({ name: 'productdetail', params: { shopId: this.shopId } })
     }
   }
 })
 </script>
 <style scoped>
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+td,
+th {
+  padding: 10px;
+  text-align: center;
+}
+.editable-button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
 </style>
