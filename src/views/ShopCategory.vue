@@ -1,4 +1,5 @@
 <template>
+  <BackModel title="商品类别" />
   <div>
     <h2>商品分类列表</h2>
     <table>
@@ -32,16 +33,20 @@
     </table>
     <div>
       <button @click="addCategory">新增</button>
-      <button @click.prevent="submitCategoryModity">提交</button>
+      <button @click="submitCategoryModity">提交</button>
     </div>
   </div>
 </template>
 <script>
 import { defineComponent } from 'vue'
 import { CATEGORY_PATH, ADD_CATEGORY_PATH, REMOVE_CATEGORY_PATH } from '../config/requestConfig'
-import { getRequest, postRequest } from '../request/index'
+import { getRequest, postRequestJson, postRequest } from '../request/index'
+import BackModel from '../components/BackModel.vue'
 //todo 将新增的提交按钮分离出来
 export default defineComponent({
+  components: {
+    BackModel
+  },
   data() {
     //存放页面数据
     return {
@@ -64,16 +69,17 @@ export default defineComponent({
     async getCategoryData() {
       const params = { shopId: this.shopId }
       const data = await getRequest(CATEGORY_PATH, params)
-      this.categoryList = data?.data
+      this.categoryList = data?.data?.data
     },
     handleClick(category) {
       //删除相应的数据
-      const data = {
-        productCategoryId: category.productCategoryId
-      }
-      const url = REMOVE_CATEGORY_PATH + '?shopId=' + JSON.stringify(this.shopId)
-      postRequest(url, data)
-      //提交成功后刷新数据 todo
+      const url = REMOVE_CATEGORY_PATH + '?shopId=' + this.shopId
+      //通过formdata的形式传参
+      const formData = new FormData()
+      formData.append('productCategoryId', category.productCategoryId)
+      //头图的传递还需要调试
+      postRequest(url, formData)
+      location.reload()
     },
     addCategory() {
       // 显示可输入行
@@ -90,9 +96,10 @@ export default defineComponent({
       }
       //提交添加的数据
       //post请求携带的参数是否需要拼接到URL中 todo
-      const url = ADD_CATEGORY_PATH + '?shopId=' + JSON.stringify(this.shopId)
+      const url = ADD_CATEGORY_PATH + '?shopId=' + this.shopId
       const data = this.addCategoryList
-      postRequest(url, data)
+      postRequestJson(url, data)
+      location.reload()
     }
   }
 })
