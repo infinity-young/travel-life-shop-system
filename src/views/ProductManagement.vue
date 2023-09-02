@@ -13,7 +13,20 @@
         <td>{{ product.productName }}</td>
         <td>
           <button @click="editProduct(product.productId)" class="editable-button">编辑</button>
-          <button @click="offProduct(product.productId)" class="editable-button">下架</button>
+          <button
+            @click="offProduct(product.productId)"
+            class="editable-button"
+            v-if="product.enableStatus == 1"
+          >
+            下架
+          </button>
+          <button
+            @click="onProduct(product.productId)"
+            class="editable-button"
+            v-if="product.enableStatus == 0"
+          >
+            上架
+          </button>
           <button @click="previewProduct(product.productId)" class="editable-button">预览</button>
         </td>
       </tr>
@@ -27,9 +40,10 @@
 <script>
 import { defineComponent } from 'vue'
 import router from '../router/index'
-import { PRODUCT_LIST_PATH } from '../config/requestConfig'
-import { getRequest } from '../request/index'
+import { PRODUCT_LIST_PATH, PRODUCT_MODIFY_PATH } from '../config/requestConfig'
+import { postRequest } from '../request/index'
 import BackModel from '../components/BackModel.vue'
+import store from '../stores/index'
 
 export default defineComponent({
   components: {
@@ -37,67 +51,29 @@ export default defineComponent({
   },
   data() {
     return {
-      productList: [
-        {
-          productId: 1,
-          productName: '海景套房',
-          productDesc: '豪华海景房，远眺大海',
-          imgAddr: 'upload/item/shop/1/2023060201480413747.jpg',
-          normalPrice: '2000',
-          promotionPrice: '1090',
-          priority: 90,
-          createTime: null,
-          lastEditTime: 1685641685000,
-          enableStatus: 1,
-          productImgList: null,
-          productCategory: null,
-          shop: null
-        },
-        {
-          productId: 10,
-          productName: '海景大床房',
-          productDesc: '海景大床房可入住2人',
-          imgAddr: 'upload/item/shop/1/2023060201471257974.jpg',
-          normalPrice: '1000',
-          promotionPrice: '900',
-          priority: 20,
-          createTime: 1681010805000,
-          lastEditTime: 1685641633000,
-          enableStatus: 1,
-          productImgList: null,
-          productCategory: null,
-          shop: null
-        },
-        {
-          productId: 60,
-          productName: '海景双床房',
-          productDesc: '海景双床房，含早',
-          imgAddr: 'upload/item/shop/1/2023060501020067386.jpg',
-          normalPrice: '900',
-          promotionPrice: '800',
-          priority: 20,
-          createTime: 1685898121000,
-          lastEditTime: 1685898121000,
-          enableStatus: 1,
-          productImgList: null,
-          productCategory: null,
-          shop: null
-        }
-      ],
       count: [],
-      shopId: null
+      shopId: null,
+      productList: [],
+      buttonStatus: null
     }
   },
-  mouted() {
+  mounted() {
     //页面初始化的时候请求页面数据,从store中获取
     this.shopId = this.$route.params.shopId
-    console.log('===ss======' + JSON.stringify(this.shopId))
+    this.getProductList()
   },
   methods: {
+    async fetchToken(url) {
+      await store.dispatch('common/fetchToken', { url: url })
+    },
     //
-    // async getProductList() {
-    //   const data = await getRequest(PRODUCT_LIST_PATH)
-    // }
+    async getProductList() {
+      const url = PRODUCT_LIST_PATH + '?shopId=' + this.shopId
+      await store.dispatch('shopList/fetchProductList', { url: url })
+      const productList = store.getters['shopList/getProductList']
+      this.productList = productList
+      // this.count = data?.data?.count
+    },
     //点击编辑
     editProduct(productId) {
       //跳转商品编辑页
@@ -105,7 +81,30 @@ export default defineComponent({
     },
     //点击下架
     offProduct(productId) {
-      //
+      //以formdata的形式提交数据
+      const data = {
+        productId: productId,
+        enableStatus: 0
+      }
+      const formData = new FormData()
+      formData.append('productStr', JSON.stringify(data))
+      //添加状态信息
+      formData.append('statusChange', true)
+      const url = PRODUCT_MODIFY_PATH + '?shopId=' + this.shopId
+      postRequest(url, formData)
+    },
+    onProduct(productId) {
+      //以formdata的形式提交数据
+      const data = {
+        productId: productId,
+        enableStatus: 1
+      }
+      const formData = new FormData()
+      formData.append('productStr', JSON.stringify(data))
+      //添加状态信息
+      formData.append('statusChange', true)
+      const url = PRODUCT_MODIFY_PATH + '?shopId=' + this.shopId
+      postRequest(url, formData)
     },
     //点击预览
     previewProduct(productId) {

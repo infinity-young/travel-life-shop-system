@@ -18,7 +18,7 @@ import { getRequest } from '@/request'
             pageSize:state.pageSize
         }
       const response = await getRequest(payload.url,params)
-      commit('setProductList', response.data.productList)
+      commit('setProductList', response?.data?.productList)
     } catch (error) {
       console.error(error)
     }

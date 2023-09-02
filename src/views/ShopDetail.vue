@@ -1,5 +1,5 @@
 <template>
-  <span>Shop Detail</span>
+  <BackModel title="商铺信息" />
   <div>
     <form>
       <div>
@@ -59,11 +59,13 @@ import {
   ADD_SHOP_PATH
 } from '../config/requestConfig'
 import SelectModel from '../components/SelectModel.vue'
+import BackModel from '../components/BackModel.vue'
 import store from '../stores/index'
 
 export default defineComponent({
   components: {
-    SelectModel
+    SelectModel,
+    BackModel
   },
   data() {
     return {
