@@ -183,7 +183,10 @@ export default defineComponent({
         formData.append('productStr', JSON.stringify(data))
         //添加图片信息
         formData.append('thumbnail', this.imgAddr)
-        formData.append('productImg', this.productImageList)
+        for (let i = 0; i < this.productImageList.length; i++) {
+          const key = 'productImg' + JSON.stringify(i)
+          formData.append(key, this.productImageList[i])
+        }
         const url = PRODUCT_MODIFY_PATH + '?shopId=' + this.shopId
         postRequest(url, formData)
       } else if (this.kaptchaCode === this.kaptchaInput) {

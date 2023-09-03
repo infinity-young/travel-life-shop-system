@@ -1,5 +1,5 @@
 export const BATH_PATH='http://localhost:8080/basic-webapp'
-export const IMAGE_PATH='http://localhost:8080/basic-webapp/frontend/'
+export const IMAGE_PATH='http://localhost:8080/basic-webapp/frontend'
 export const LOGIN_PATH='/local/logincheck'
 export const MODIFY_PATH='/local/logincheck'
 export const SHOP_LIST_PATH='/shopadmin/getshoplistend'
