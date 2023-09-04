@@ -131,10 +131,9 @@ export default defineComponent({
     //获取更多网络数据
     async loadMore() {
       const url = PRODUCT_LIST_PATH + '?shopId=' + this.shopId
-      await store.dispatch('shopList/fetchProductList', { url: url })
-      const productList = store.getters['shopList/fetchMoreProductList']
+      await store.dispatch('shopList/fetchMoreProductList', { url: url })
+      const productList = store.getters['shopList/getProductList']
       this.productList = productList
-      console.log('=====pp===' + JSON.stringify(this.productList))
     },
     checkScroll(event) {
       const { scrollTop, scrollHeight, clientHeight } = event.target
