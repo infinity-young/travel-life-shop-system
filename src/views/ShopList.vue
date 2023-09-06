@@ -36,6 +36,7 @@ import { defineComponent } from 'vue'
 import { getRequest } from '../request/index'
 import { SHOP_LIST_PATH } from '../config/requestConfig'
 import router from '../router/index'
+import store from '../stores/index'
 
 export default defineComponent({
   data() {
@@ -96,20 +97,21 @@ export default defineComponent({
     },
     goToProductManage(shopId) {
       //商品管理页
-      console.log('=====gotoproductmange===')
       router.push({ name: 'productmanagement', params: { shopId } })
     },
     goToCategoryManage(shopId) {
       //类别管理页
       router.push({ name: 'category', params: { shopId } })
     },
-    logOut() {
-      //登出
-      console.log('=====logout====')
+    async logOut() {
+      //登出派发一个action到store，清除cookie中和store中的token
+      await store.dispatch('common/logout')
+      //重定向到登录页
+      router.push({ name: 'login' })
     },
     modifyAccount() {
-      //账号修改
-      console.log('=====modifyAccount=====')
+      //跳转密码修改页
+      router.push({ name: 'modifypassword' })
     }
   }
 })

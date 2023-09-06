@@ -1,7 +1,7 @@
 export const BATH_PATH='http://localhost:8080/basic-webapp'
 export const IMAGE_PATH='http://localhost:8080/basic-webapp/frontend'
 export const LOGIN_PATH='/local/logincheck'
-export const MODIFY_PATH='/local/logincheck'
+export const MODIFY_PASSWORD_PATH='/local/changelocalpwdend'
 export const SHOP_LIST_PATH='/shopadmin/getshoplistend'
 export const ADD_SHOP_PATH='/shopadmin/registershopend'
 export const KAPTCHA_PATH='/local/vuekaptcha'
