@@ -34,6 +34,9 @@
 import { getKaptchaRequest, postRequest } from '../request/index'
 import { MODIFY_PASSWORD_PATH, KAPTCHA_PATH } from '../config/requestConfig'
 import store from '../stores/index'
+import { useToast } from 'vue-toastification'
+import router from '../router/index'
+
 export default {
   data() {
     return {
@@ -54,10 +57,17 @@ export default {
     async fetchToken(url) {
       await store.dispatch('common/fetchToken', { url: url })
     },
+    async logOut() {
+      //登出派发一个action到store，清除cookie中和store中的token
+      await store.dispatch('common/logout')
+      //重定向到登录页
+      router.push({ name: 'login' })
+    },
     submit() {
       //如果新密码和确认密码不相等则给用户提示
       if (this.password !== this.newpassword) {
-        //todo toast提示
+        const toast = useToast()
+        toast.error('新密码和确认密码不同')
       } else if (this.kaptcha === this.kaptchaCode && this.password === this.newpassword) {
         //将校验放到前端，验证码校验通过才请求登录接口
         const formData = new FormData()
@@ -66,8 +76,10 @@ export default {
         formData.append('newPassword', this.password)
         //请求修改密码接口
         postRequest(MODIFY_PASSWORD_PATH, formData)
-        this.fetchToken(url)
         //密码修改成功以后返回登录页
+        //先登出清空cookie和store中的token，再重定向到登录页
+        //todo 需要先确定修改密码接口返回值是什么，再根据回调的值确定走啥
+        // this.logOut()
       }
     },
     async refreshkaptcha() {
