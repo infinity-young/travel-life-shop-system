@@ -46,7 +46,17 @@ export default {
     },
     login() {
       // 进行登录操作
-      const url = LOGIN_PATH + '?' + 'userName=' + this.username + '&password=' + this.password
+      const url =
+        LOGIN_PATH +
+        '?' +
+        'userName=' +
+        this.username +
+        '&password=' +
+        this.password +
+        '&needVerify=' +
+        true +
+        '&kaptchaInput=' +
+        this.kaptcha
       //将校验放到前端，验证码校验通过才请求登录接口
       if (this.kaptcha === this.kaptchaCode) {
         this.fetchToken(url)

@@ -63,7 +63,7 @@ export default {
       //重定向到登录页
       router.push({ name: 'login' })
     },
-    submit() {
+    async submit() {
       //如果新密码和确认密码不相等则给用户提示
       if (this.password !== this.newpassword) {
         const toast = useToast()
@@ -72,14 +72,14 @@ export default {
         //将校验放到前端，验证码校验通过才请求登录接口
         const formData = new FormData()
         formData.append('userName', this.username)
-        formData.append('password', this.passwordold)
+        formData.append('password', this.oldpassword)
         formData.append('newPassword', this.password)
         //请求修改密码接口
-        postRequest(MODIFY_PASSWORD_PATH, formData)
+        const data = await postRequest(MODIFY_PASSWORD_PATH, formData)
         //密码修改成功以后返回登录页
-        //先登出清空cookie和store中的token，再重定向到登录页
-        //todo 需要先确定修改密码接口返回值是什么，再根据回调的值确定走啥
-        // this.logOut()
+        if (data?.data?.success) {
+          this.logOut()
+        }
       }
     },
     async refreshkaptcha() {
