@@ -1,6 +1,9 @@
 {
   "extends": "./tsconfig.app.json",
   "exclude": [],
+  "include": [
+    "models/**/*.ts" // 这将包含 models 目录下的所有 TypeScript 文件
+  ],
   "compilerOptions": {
     "composite": true,
     "lib": [],

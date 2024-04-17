@@ -15,7 +15,7 @@ export function getRequest(path: string, params?: Record<string, any>) {
     axios
       .get(fullPath, { params: searchParams })
       .then((response) => {
-        resolve(response);
+        resolve(response.data);
       })
       .catch((error) => {
         reject(error);

@@ -2,6 +2,7 @@
   <div class="shop-info">
     <div class="header-container">
       <span>你好</span>
+      <div>{{ user.name }}</div>
       <button @click="addShop">新增店铺</button>
     </div>
     <table>
@@ -37,6 +38,7 @@ import { getRequest } from '../request/index'
 import { SHOP_LIST_PATH } from '../config/requestConfig'
 import router from '../router/index'
 import store from '../stores/index'
+import { ShopListResult } from '../../models/ShopListResult.ts'
 
 export default defineComponent({
     data () {
@@ -106,8 +108,9 @@ export default defineComponent({
     },
     methods: {
         async getListData () {
-            const data = await getRequest(SHOP_LIST_PATH)
-            this.shopList = data?.data?.shopList
+            const data = ShopListResult.from(await getRequest(SHOP_LIST_PATH))
+            this.shopList = data.shopList
+            this.user = data.user
         },
         addShop () {
             //添加店铺,店铺编辑页的shopId设置为可选，使用店铺编辑页作为店铺新增页
