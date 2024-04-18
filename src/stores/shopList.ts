@@ -1,4 +1,5 @@
 import { getRequest } from '@/request'
+import { ProductListResult } from '../../models/ProductListResult'
 
  const state={
     productList:[],
@@ -23,10 +24,11 @@ import { getRequest } from '@/request'
         const params={
             pageIndex:state.pageIndex,
             pageSize:state.pageSize
-        }
-      const response = await getRequest(payload.url,params)
-      commit('setProductList', response?.data?.productList)
-      commit('setCount',response?.data?.count)
+      }  
+      const response:ProductListResult.t = await getRequest(payload.url, params);
+      const data = ProductListResult.from(response)
+      commit('setProductList', data.productList)
+      commit('setCount',data.count)
     } catch (error) {
       console.error(error)
     }
