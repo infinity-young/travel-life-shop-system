@@ -1,8 +1,7 @@
 <template>
   <div class="shop-info">
     <div class="header-container">
-      <span>你好</span>
-      <div>{{ user.name }}</div>
+      <span>{{ title }}</span>
       <button @click="addShop">新增店铺</button>
     </div>
     <table>
@@ -43,6 +42,7 @@ import { ShopListResult } from '../../models/ShopListResult.ts'
 export default defineComponent({
     data () {
         return {
+            title: "",
             shopList: [],
             user: {}
         }
@@ -111,6 +111,7 @@ export default defineComponent({
             const data = ShopListResult.from(await getRequest(SHOP_LIST_PATH))
             this.shopList = data.shopList
             this.user = data.user
+            this.title = "您好！" + data.user.name
         },
         addShop () {
             //添加店铺,店铺编辑页的shopId设置为可选，使用店铺编辑页作为店铺新增页
