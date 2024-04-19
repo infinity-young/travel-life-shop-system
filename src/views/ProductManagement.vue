@@ -81,7 +81,6 @@ export default defineComponent({
             await store.dispatch('shopList/fetchProductList', { url: url })
             const productList = store.getters['shopList/getProductList']
             this.productList = productList
-            console.log('=====pp===' + JSON.stringify(this.productList))
         },
         //点击编辑
         editProduct (productId) {
