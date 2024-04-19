@@ -13,7 +13,7 @@
     :debug="debug"
     v-slot="{ item }"
     ref="infiniteList"
-    @scroll.native="checkScroll"
+    @scroll="checkScroll"
   >
     <div>{{ item.productName }}</div>
     <div>
@@ -138,6 +138,7 @@ export default defineComponent({
             const { scrollTop, scrollHeight, clientHeight } = event.target
 
             if (scrollTop + clientHeight >= scrollHeight) {
+                this.$emit('scroll', event);
                 console.log('Scrolled to the end of the list')
                 // 此处向store中派发action，请求加载更多，然后将重新获取store中的List
                 this.loadMore()
