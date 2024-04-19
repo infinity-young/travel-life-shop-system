@@ -25,38 +25,39 @@ import { defineComponent } from 'vue'
 import { PRODUCT_DETAIL_INFO_PATH, IMAGE_PATH } from '../config/requestConfig'
 import { getRequest } from '../request/index'
 import BackModel from '../components/BackModel.vue'
+import { ProductDetailResult } from '../../models/ProductDetailResult'
 
 export default defineComponent({
-  components: {
-    BackModel
-  },
-  data() {
-    return {
-      product: {},
-      productId: null,
-      headImage: '',
-      detailImage: []
+    components: {
+        BackModel
+    },
+    data () {
+        return {
+            product: {},
+            productId: null,
+            headImage: '',
+            detailImage: []
+        }
+    },
+    mounted () {
+        //获取路由数据
+        this.productId = this.$route.params.productId
+        //请求页面数据
+        this.getProductDetailInfo()
+    },
+    methods: {
+        async getProductDetailInfo () {
+            const params = {
+                productId: this.productId
+            }
+            const data = ProductDetailResult.from(await getRequest(PRODUCT_DETAIL_INFO_PATH, params))
+            this.product = data.product
+            this.headImage = IMAGE_PATH + data?.data?.product?.imgAddr
+            this.detailImage = data?.data?.product?.productImgList?.map((item) => {
+                return IMAGE_PATH + item.imgAddr
+            })
+        }
     }
-  },
-  mounted() {
-    //获取路由数据
-    this.productId = this.$route.params.productId
-    //请求页面数据
-    this.getProductDetailInfo()
-  },
-  methods: {
-    async getProductDetailInfo() {
-      const params = {
-        productId: this.productId
-      }
-      const data = await getRequest(PRODUCT_DETAIL_INFO_PATH, params)
-      this.product = data?.data?.product
-      this.headImage = IMAGE_PATH + data?.data?.product?.imgAddr
-      this.detailImage = data?.data?.product?.productImgList?.map((item) => {
-        return IMAGE_PATH + item.imgAddr
-      })
-    }
-  }
 })
 </script>
 <style scoped>
