@@ -1,2 +1,2 @@
-import * as AreaType from './_AreaType.ts'
+import * as AreaType from './_AreaType'
 export {AreaType}

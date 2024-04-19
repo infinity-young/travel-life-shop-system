@@ -1,6 +1,6 @@
-import { AreaType } from './AreaType.ts'
-import { ShopCategory } from './ShopCategory.ts'
-import { PersonType } from './PersonType.ts'
+import { AreaType } from './AreaType'
+import { ShopCategory } from './ShopCategory'
+import { PersonType } from './PersonType'
 export interface nonnull_t{
     shopId: number,
     shopName: string,

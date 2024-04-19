@@ -2,7 +2,7 @@
   "files": [],
   "compilerOptions": {
     "types": ["vuex"],
-    "moduleResolution": "bundler",
+    "moduleResolution": "classic",
     "noEmit": true, // 或者 "emitDeclarationOnly": true
     "allowImportingTsExtensions": true
   },
