@@ -52,8 +52,8 @@ export default defineComponent({
             }
             const data = ProductDetailResult.from(await getRequest(PRODUCT_DETAIL_INFO_PATH, params))
             this.product = data.product
-            this.headImage = IMAGE_PATH + data?.data?.product?.imgAddr
-            this.detailImage = data?.data?.product?.productImgList?.map((item) => {
+            this.headImage = IMAGE_PATH + data.product.imgAddr
+            this.detailImage = data.product.productImgList.map((item) => {
                 return IMAGE_PATH + item.imgAddr
             })
         }
