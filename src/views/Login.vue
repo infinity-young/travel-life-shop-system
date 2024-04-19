@@ -26,48 +26,50 @@
 import { getKaptchaRequest } from '../request/index'
 import { LOGIN_PATH, KAPTCHA_PATH } from '../config/requestConfig'
 import store from '../stores/index'
+import { KaptchaType } from '../../models/KaptchaType';
+
 export default {
-  data() {
-    return {
-      username: '',
-      password: '',
-      kaptcha: '',
-      kaptchaUrl: '',
-      kaptchaCode: ''
-    }
-  },
-  mounted() {
-    // 页面加载时，获取验证码图片
-    this.refreshkaptcha()
-  },
-  methods: {
-    async fetchToken(url) {
-      await store.dispatch('common/fetchToken', { url: url })
+    data () {
+        return {
+            username: '',
+            password: '',
+            kaptcha: '',
+            kaptchaUrl: '',
+            kaptchaCode: ''
+        }
     },
-    login() {
-      // 进行登录操作
-      const url =
-        LOGIN_PATH +
-        '?' +
-        'userName=' +
-        this.username +
-        '&password=' +
-        this.password +
-        '&needVerify=' +
-        true +
-        '&kaptchaInput=' +
-        this.kaptcha
-      //将校验放到前端，验证码校验通过才请求登录接口
-      if (this.kaptcha === this.kaptchaCode) {
-        this.fetchToken(url)
-      }
+    mounted () {
+        // 页面加载时，获取验证码图片
+        this.refreshkaptcha()
     },
-    async refreshkaptcha() {
-      const kaptchaData = await getKaptchaRequest(KAPTCHA_PATH)
-      this.kaptchaUrl = kaptchaData.url
-      this.kaptchaCode = kaptchaData.kaptchaCode
+    methods: {
+        async fetchToken (url) {
+            await store.dispatch('common/fetchToken', { url: url })
+        },
+        login () {
+            // 进行登录操作
+            const url =
+                LOGIN_PATH +
+                '?' +
+                'userName=' +
+                this.username +
+                '&password=' +
+                this.password +
+                '&needVerify=' +
+                true +
+                '&kaptchaInput=' +
+                this.kaptcha
+            //将校验放到前端，验证码校验通过才请求登录接口
+            if (this.kaptcha === this.kaptchaCode) {
+                this.fetchToken(url)
+            }
+        },
+        async refreshkaptcha () {
+            const kaptchaData = KaptchaType.from(await getKaptchaRequest(KAPTCHA_PATH))
+            this.kaptchaUrl = kaptchaData.url
+            this.kaptchaCode = kaptchaData.kaptchaCode
+        }
     }
-  }
 }
 </script>
 
