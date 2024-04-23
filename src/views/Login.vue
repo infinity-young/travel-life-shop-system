@@ -4,18 +4,41 @@
     <form>
       <div class="form-group">
         <label for="username">用户名</label>
-        <input type="text" id="username" v-model="username" required />
+        <input
+          type="text"
+          id="username"
+          v-model="username"
+          :class="{ 'input-error': !hasUsername }"
+          required
+        />
+        <span v-if="!hasUsername" class="error-message">此项为必填项</span>
       </div>
       <div class="form-group">
         <label for="password">密码</label>
-        <input type="password" id="password" v-model="password" required />
+        <input
+          type="password"
+          id="password"
+          v-model="password"
+          :class="{ 'input-error': !hasPassword }"
+          required
+        />
+        <span v-if="!hasPassword" class="error-message">此项为必填项</span>
       </div>
-      <div class="form-group">
+      <div class="form-group-kaptcha">
         <label for="kaptcha">验证码</label>
         <div class="kaptcha">
           <img :src="kaptchaUrl" @click="refreshkaptcha" />
+          <div class="kaptcha-container">
+            <input
+              class="kaptcha-input"
+              type="text"
+              v-model="kaptcha"
+              :class="{ 'input-error': !hasKaptcha }"
+              required
+            />
+            <span v-if="!hasKaptcha" class="error-message">此项为必填项</span>
+          </div>
         </div>
-        <input type="text" id="kaptcha" v-model="kaptcha" required />
       </div>
       <button type="submit" @click.prevent="login" class="login-button">登录</button>
     </form>
@@ -34,6 +57,9 @@ export default {
             username: '',
             password: '',
             kaptcha: '',
+            hasUsername: true,
+            hasPassword: true,
+            hasKaptcha: true,
             kaptchaUrl: '',
             kaptchaCode: ''
         }
@@ -47,6 +73,10 @@ export default {
             await store.dispatch('common/fetchToken', { url: url })
         },
         login () {
+            //校验输入是否已经完整
+            this.hasUsername = this.username.length > 0;
+            this.hasPassword = this.password.length > 0;
+            this.hasKaptcha = this.kaptcha.length > 0;
             // 进行登录操作
             const url =
                 LOGIN_PATH +
@@ -77,8 +107,10 @@ export default {
 .login {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  height: 100%;
+  width: 100%;
 }
 
 form {
@@ -88,6 +120,13 @@ form {
 }
 
 .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group-kaptcha {
+  width: 300px;
   margin-bottom: 20px;
 }
 
@@ -119,16 +158,29 @@ button:hover {
   background-color: #0062cc;
 }
 .kaptcha {
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
   margin-bottom: 10px;
+}
+
+.kaptcha-input {
+  width: 190px;
 }
 
 .kaptcha img {
   cursor: pointer;
+  width: 100px;
+}
+.kaptcha-container {
+  margin-left: 10px;
 }
 
-.login-button {
-  margin-bottom: 200px;
+.input-error {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
 }
 </style>
 
