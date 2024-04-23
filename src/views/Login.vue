@@ -3,7 +3,10 @@
     <h1>登录</h1>
     <form>
       <div class="form-group">
-        <label for="username">用户名</label>
+        <div class="necessary-group">
+          <label for="username">用户名</label>
+          <label class="necessary-icon">*</label>
+        </div>
         <input
           type="text"
           id="username"
@@ -14,7 +17,10 @@
         <span v-if="!hasUsername" class="error-message">此项为必填项</span>
       </div>
       <div class="form-group">
-        <label for="password">密码</label>
+        <div class="necessary-group">
+          <label for="password">密码</label>
+          <label class="necessary-icon">*</label>
+        </div>
         <input
           type="password"
           id="password"
@@ -25,7 +31,10 @@
         <span v-if="!hasPassword" class="error-message">此项为必填项</span>
       </div>
       <div class="form-group-kaptcha">
-        <label for="kaptcha">验证码</label>
+        <div class="necessary-group">
+          <label for="kaptcha">验证码</label>
+          <label class="necessary-icon">*</label>
+        </div>
         <div class="kaptcha">
           <img :src="kaptchaUrl" @click="refreshkaptcha" />
           <div class="kaptcha-container">
@@ -135,6 +144,14 @@ label {
   margin-bottom: 5px;
 }
 
+.necessary-group {
+  display: flex;
+  flex-direction: row;
+}
+
+.necessary-icon {
+  color: red;
+}
 input {
   padding: 10px;
   border-radius: 5px;
