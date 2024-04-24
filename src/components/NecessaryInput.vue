@@ -28,7 +28,6 @@ export default {
         autocomplete: String,
     },
     data () {
-        console.log("=======", this.originInputValue)
         return {
             inputValue: this.originInputValue || ""
         }
