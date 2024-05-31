@@ -84,6 +84,21 @@ export default {
             router.push({ name: 'login' })
         },
         async submit () {
+            if (this.username.length <= 0) {
+                this.hasUsername = false;
+            }
+            if (this.oldpassword.length <= 0) {
+                this.hasOldPassword = false;
+            }
+            if (this.password.length <= 0) {
+                this.hasPassword = false;
+            }
+            if (this.kaptcha.length <= 0) {
+                this.hasKaptcha = false;
+            }
+            if (this.newpassword.length <= 0) {
+                this.hasNewPassword = false;
+            }
             const toast = useToast()
             //如果新密码和确认密码不相等则给用户提示
             if (this.password !== this.newpassword) {
