@@ -1,7 +1,6 @@
 <template>
-  <BackModel title="商品类别" />
-  <div>
-    <h2>商品分类列表</h2>
+  <div class="container">
+    <div class="title-text">商品类别</div>
     <table>
       <thead>
         <tr>
@@ -31,9 +30,10 @@
         </tr>
       </tbody>
     </table>
-    <div>
+    <div class="footer-container">
       <button @click="addCategory">新增</button>
       <button @click="submitCategoryModity">提交</button>
+      <BackModel />
     </div>
   </div>
 </template>
@@ -106,4 +106,47 @@ export default defineComponent({
 })
 </script>
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+table {
+  width: 100%;
+  text-align: center;
+  background-color: rgb(215, 218, 221);
+  border-radius: 12px;
+  border-spacing: 0; /* 用于替代 border-collapse: collapse; */
+  overflow: hidden; /* 确保圆角被显示 */
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: #aeadad;
+}
+
+/* 针对表格最后一行的第一个和最后一个单元格设置圆角 */
+tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+.footer-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+}
 </style>

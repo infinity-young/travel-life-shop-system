@@ -89,29 +89,6 @@ export default defineComponent({
 })
 </script>
 <style scoped>
-.title-text {
-  font-size: 2em; /* 字体大小 */
-  text-align: center; /* 居中对齐 */
-  color: #c65577; /* 字体颜色 */
-  background: -webkit-linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%); /* 背景渐变 */
-  -webkit-background-clip: text; /* 文字背景裁剪 */
-  text-shadow: 0px 0px 6px rgba(251, 221, 221, 0.901); /* 文字阴影 */
-  font-weight: bold; /* 字体加粗 */
-  margin: 20px;
-  animation: glow 9s ease-in-out infinite alternate; /* 动画效果 */
-}
-
-/* 动画关键帧 */
-@keyframes glow {
-  from {
-    text-shadow: 0 0 10px #eba6a6, 0 0 20px #e57a7a, 0 0 30px #be4a5a, 0 0 40px #e65050,
-      0 0 50px #e83547, 0 0 60px #e54242, 0 0 70px #e60000;
-  }
-  to {
-    text-shadow: 0 0 10px #ecdede, 0 0 20px #d8a5a5, 0 0 30px #c47680, 0 0 40px #d89292,
-      0 0 50px #d98991, 0 0 60px #de5858, 0 0 70px #db4747;
-  }
-}
 .shop-info {
   height: 100%;
   width: 100%;
