@@ -31,25 +31,24 @@
   --color-border-hover: var(--vt-c-divider-light-1);
 
   --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-
-  --section-gap: 160px;
+  --color-text: var(--vt-c-black);
+  --section-gap: 160px; /*定义了一个用于布局间隙的变量*/
 }
 
+/*媒体查询，确认用户是否设置了操作系统的深色模式*/
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: var(--vt-c-black);
     --color-background-soft: var(--vt-c-black-soft);
     --color-background-mute: var(--vt-c-black-mute);
-
     --color-border: var(--vt-c-divider-dark-2);
     --color-border-hover: var(--vt-c-divider-dark-1);
-
     --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
   }
 }
 
+/**
+设置全局的选择器，设置了元素及其伪元素 before 和 after的样式
+*/
 *,
 *::before,
 *::after {
@@ -57,30 +56,12 @@
   margin: 0;
   font-weight: normal;
 }
-
 body {
-  /* min-height: 100vh; */
   color: var(--color-text);
   background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-image: url('./background.png'); /* 背景图片的路径 */
+  background-size: cover; /* 背景图片覆盖整个页面 */
+  background-position: center center; /* 背景图片居中显示 */
+  background-attachment: fixed; /* 背景图片固定，不随滚动条滚动 */
+  background-repeat: no-repeat; /* 背景图片不重复 */
 }

@@ -106,14 +106,10 @@ button {
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: #007aff;
   color: #fff;
   width: 300px;
   font-size: 16px;
   cursor: pointer;
-}
-button:hover {
-  background-color: #0062cc;
 }
 </style>
 
