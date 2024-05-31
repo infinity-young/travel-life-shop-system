@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="title-text">商品类别</div>
+    <div class="title-text">商品类别管理</div>
     <table>
       <thead>
         <tr>
@@ -113,40 +113,5 @@ export default defineComponent({
   height: 100%;
   justify-content: center;
   align-items: center;
-}
-table {
-  width: 100%;
-  text-align: center;
-  background-color: rgb(215, 218, 221);
-  border-radius: 12px;
-  border-spacing: 0; /* 用于替代 border-collapse: collapse; */
-  overflow: hidden; /* 确保圆角被显示 */
-}
-
-th,
-td {
-  padding: 10px;
-  border: 1px solid #ccc;
-}
-
-th {
-  background-color: #aeadad;
-}
-
-/* 针对表格最后一行的第一个和最后一个单元格设置圆角 */
-tr:last-child td:first-child {
-  border-bottom-left-radius: 12px;
-}
-
-tr:last-child td:last-child {
-  border-bottom-right-radius: 12px;
-}
-
-.footer-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 10px;
 }
 </style>

@@ -1,53 +1,57 @@
 <template>
-  <span>Product Detail</span>
-  <div>
-    <form>
-      <div>
-        <label for="productName">商品名称</label>
-        <input type="text" id="productName" v-model="productName" />
-      </div>
-      <div>
-        <label for="shopArea1">目录：</label>
-        <SelectModel
-          :options="productCategoryList"
-          :selectedOption="productCategory"
-          v-on:update:selectedOption="selectedCategoryOptionChange"
-        />
-      </div>
-      <div>
-        <label for="priority">优先级：</label>
-        <input type="text" id="priority" v-model="priority" />
-      </div>
-      <div>
-        <label for="normalPrice">原价：</label>
-        <input type="text" id="normalPrice" v-model="normalPrice" />
-      </div>
-      <div>
-        <label for="promotionPrice">现价</label>
-        <input type="text" id="promotionPrice" v-model="promotionPrice" />
-      </div>
-      <div>
-        <label for="shopImage">缩略图</label>
-        <input type="file" id="shopImage" @change="handleHeadImageChange" />
-        <!-- <img :src="shop.shopImg" v-if="shop.shopImg" /> 是否需要添加展示模块-->
-      </div>
-      <div>
-        <label for="shopImage">详情图</label>
-        <input type="file" id="shopImage" @change="handleDetailImageChange" />
-        <!-- <img :src="shop.shopImg" v-if="shop.shopImg" /> 是否需要添加展示模块-->
-      </div>
-      <div>
-        <label for="productDesc">商品描述</label>
-        <input type="text" id="productDesc" v-model="productDesc" />
-      </div>
-      <div>
-        <label for="kaptchaUrl">验证码</label>
-        <img :src="kaptchaUrl" />
-        <input type="text" id="kaptchaInput" v-model="kaptchaInput" />
-      </div>
-      <button type="submit" @click.prevent="goBack">返回商品管理</button>
-      <button type="submit" @click.prevent="submitProductModify">提交</button>
-    </form>
+  <div class="commonPageContainer">
+    <span class="title-text">商品详情</span>
+    <div>
+      <form>
+        <div>
+          <label for="productName">商品名称</label>
+          <input type="text" id="productName" v-model="productName" />
+        </div>
+        <div>
+          <label for="shopArea1">目录：</label>
+          <SelectModel
+            :options="productCategoryList"
+            :selectedOption="productCategory"
+            v-on:update:selectedOption="selectedCategoryOptionChange"
+          />
+        </div>
+        <div>
+          <label for="priority">优先级：</label>
+          <input type="text" id="priority" v-model="priority" />
+        </div>
+        <div>
+          <label for="normalPrice">原价：</label>
+          <input type="text" id="normalPrice" v-model="normalPrice" />
+        </div>
+        <div>
+          <label for="promotionPrice">现价</label>
+          <input type="text" id="promotionPrice" v-model="promotionPrice" />
+        </div>
+        <div>
+          <label for="shopImage">缩略图</label>
+          <input type="file" id="shopImage" @change="handleHeadImageChange" />
+          <!-- <img :src="shop.shopImg" v-if="shop.shopImg" /> 是否需要添加展示模块-->
+        </div>
+        <div>
+          <label for="shopImage">详情图</label>
+          <input type="file" id="shopImage" @change="handleDetailImageChange" />
+          <!-- <img :src="shop.shopImg" v-if="shop.shopImg" /> 是否需要添加展示模块-->
+        </div>
+        <div>
+          <label for="productDesc">商品描述</label>
+          <input type="text" id="productDesc" v-model="productDesc" />
+        </div>
+        <div>
+          <label for="kaptchaUrl">验证码</label>
+          <img :src="kaptchaUrl" />
+          <input type="text" id="kaptchaInput" v-model="kaptchaInput" />
+        </div>
+        <div class="footer-container">
+          <button type="submit" @click.prevent="goBack">返回商品管理</button>
+          <button type="submit" @click.prevent="submitProductModify">提交</button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 <script>

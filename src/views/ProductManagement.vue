@@ -1,43 +1,45 @@
 <template>
-  <span>product management</span>
-  <BackModel title="商品管理" />
-  <div class="table-header">
-    <div>商品名称</div>
-    <div>操作</div>
-  </div>
-  <InfiniteList
-    :data="productList"
-    :width="'100%'"
-    :height="800"
-    :itemSize="200"
-    :debug="debug"
-    v-slot="{ item }"
-    ref="infiniteList"
-    @scroll="checkScroll"
-  >
-    <div>{{ item.productName }}</div>
-    <div>
-      <button @click="editProduct(item.productId)" class="editable-button">编辑</button>
-      <button
-        @click="offProduct(item.productId)"
-        class="editable-button"
-        v-if="item.enableStatus == 1"
-      >
-        下架
-      </button>
-      <button
-        @click="onProduct(item.productId)"
-        class="editable-button"
-        v-if="item.enableStatus == 0"
-      >
-        上架
-      </button>
-      <button @click="previewProduct(item.productId)" class="editable-button">预览</button>
+  <div class="container">
+    <span class="title-text">商品管理</span>
+    <div class="table-header">
+      <div>商品名称</div>
+      <div>操作</div>
     </div>
-  </InfiniteList>
-  <div>
-    <button @click="goBack">返回</button>
-    <button @click.prevent="add">新增</button>
+    <InfiniteList
+      class="listContainer"
+      :data="productList"
+      :width="'100%'"
+      :height="800"
+      :itemSize="200"
+      :debug="debug"
+      v-slot="{ item }"
+      ref="infiniteList"
+      @scroll="checkScroll"
+    >
+      <div>{{ item.productName }}</div>
+      <div>
+        <button @click="editProduct(item.productId)" class="editable-button">编辑</button>
+        <button
+          @click="offProduct(item.productId)"
+          class="editable-button"
+          v-if="item.enableStatus == 1"
+        >
+          下架
+        </button>
+        <button
+          @click="onProduct(item.productId)"
+          class="editable-button"
+          v-if="item.enableStatus == 0"
+        >
+          上架
+        </button>
+        <button @click="previewProduct(item.productId)" class="editable-button">预览</button>
+      </div>
+    </InfiniteList>
+    <div class="footer-container">
+      <button @click="goBack">返回</button>
+      <button @click.prevent="add">新增</button>
+    </div>
   </div>
 </template>
 <script>
@@ -148,17 +150,15 @@ export default defineComponent({
 })
 </script>
 <style scoped>
-table {
+.container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  table-layout: fixed;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 }
-td,
-th {
-  padding: 10px;
-  text-align: center;
-}
-.editable-button {
-  margin-left: 10px;
-  margin-right: 10px;
+.listContainer {
+  background-color: aqua;
 }
 </style>
