@@ -108,8 +108,8 @@ export default defineComponent({
       0 0 50px #e83547, 0 0 60px #e54242, 0 0 70px #e60000;
   }
   to {
-    text-shadow: 0 0 10px #eba6a6, 0 0 20px #e57a7a, 0 0 30px #be4a5a, 0 0 40px #e65050,
-      0 0 50px #e83547, 0 0 60px #e54242, 0 0 70px #e60000;
+    text-shadow: 0 0 10px #ecdede, 0 0 20px #d8a5a5, 0 0 30px #c47680, 0 0 40px #d89292,
+      0 0 50px #d98991, 0 0 60px #de5858, 0 0 70px #db4747;
   }
 }
 .shop-info {
