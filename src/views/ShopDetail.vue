@@ -45,10 +45,10 @@
         <input type="text" id="shopDesc" v-model="shopDesc" class="value" />
       </div>
       <div class="columContianer">
-        <label for="shopDesc" class="title">验证码</label>
+        <label for="kaptchaUrl" class="title">验证码</label>
         <div class="value">
           <img :src="kaptchaUrl" />
-          <input type="text" id="shopDesc" v-model="kaptchaInput" />
+          <input type="text" v-model="kaptchaInput" />
         </div>
       </div>
       <div class="footer-container">
@@ -116,7 +116,7 @@ export default defineComponent({
         //获取店铺基本信息
         async getShopInfo () {
             const data = ShopInitInfoResult.from(await getRequest(SHOP_INFO_PATH))
-            this.shopCategoryList = data.shopCategoryList?.map((item) => {
+            this.shopCategoryList = data.shopCategoryList.map((item) => {
                 const newItem = {
                     name: item.shopCategoryName,
                     id: item.shopCategoryId

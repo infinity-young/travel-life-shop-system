@@ -3,48 +3,59 @@
     <span class="title-text">商品详情</span>
     <div>
       <form>
-        <div>
-          <label for="productName">商品名称</label>
-          <input type="text" id="productName" v-model="productName" />
+        <div class="columContianer">
+          <label for="productName" class="title">商品名称</label>
+          <input type="text" id="productName" v-model="productName" class="value" />
         </div>
-        <div>
-          <label for="shopArea1">目录：</label>
+        <div class="columContianer">
+          <label for="shopArea1" class="title">目录</label>
           <SelectModel
             :options="productCategoryList"
             :selectedOption="productCategory"
             v-on:update:selectedOption="selectedCategoryOptionChange"
+            class="value"
           />
         </div>
-        <div>
-          <label for="priority">优先级：</label>
-          <input type="text" id="priority" v-model="priority" />
+        <div class="columContianer">
+          <label for="priority" class="title">优先级</label>
+          <input type="text" id="priority" v-model="priority" class="value" />
         </div>
-        <div>
-          <label for="normalPrice">原价：</label>
-          <input type="text" id="normalPrice" v-model="normalPrice" />
+        <div class="columContianer">
+          <label for="normalPrice" class="title">原价</label>
+          <input type="text" id="normalPrice" v-model="normalPrice" class="value" />
         </div>
-        <div>
-          <label for="promotionPrice">现价</label>
-          <input type="text" id="promotionPrice" v-model="promotionPrice" />
+        <div class="columContianer">
+          <label for="promotionPrice" class="title">现价</label>
+          <input type="text" id="promotionPrice" v-model="promotionPrice" class="value" />
         </div>
-        <div>
-          <label for="shopImage">缩略图</label>
-          <input type="file" id="shopImage" @change="handleHeadImageChange" />
-          <!-- <img :src="shop.shopImg" v-if="shop.shopImg" /> 是否需要添加展示模块-->
+        <div class="columContianer">
+          <label for="shopImage" class="title">缩略图</label>
+          <input type="file" id="shopImage" @change="handleHeadImageChange" class="value" />
         </div>
-        <div>
-          <label for="shopImage">详情图</label>
-          <input type="file" id="shopImage" @change="handleDetailImageChange" />
-          <!-- <img :src="shop.shopImg" v-if="shop.shopImg" /> 是否需要添加展示模块-->
+        <div class="columContianer" v-if="imgAddr.length > 0">
+          <label class="title">原缩略图</label>
+          <img :src="imgAddr" class="value" />
         </div>
-        <div>
-          <label for="productDesc">商品描述</label>
-          <input type="text" id="productDesc" v-model="productDesc" />
+        <div class="columContianer">
+          <label for="shopImage" class="title">详情图</label>
+          <input type="file" id="shopImage" @change="handleDetailImageChange" class="value" />
         </div>
-        <div>
-          <label for="kaptchaUrl">验证码</label>
-          <img :src="kaptchaUrl" />
-          <input type="text" id="kaptchaInput" v-model="kaptchaInput" />
+        <div class="columContianer" v-if="productImgList.length > 0">
+          <label class="title">原详情图</label>
+          <div class="imgContainer">
+            <img v-for="image in productImgList" :src="image" :key="image" class="imgDetail" />
+          </div>
+        </div>
+        <div class="columContianer">
+          <label for="productDesc" class="title">商品描述</label>
+          <input type="text" id="productDesc" v-model="productDesc" class="value" />
+        </div>
+        <div class="columContianer">
+          <label for="kaptchaUrl" class="title">验证码</label>
+          <div class="value">
+            <img :src="kaptchaUrl" />
+            <input type="text" v-model="kaptchaInput" />
+          </div>
         </div>
         <div class="footer-container">
           <button type="submit" @click.prevent="goBack">返回商品管理</button>
@@ -61,7 +72,8 @@ import {
     PRODUCT_MODIFY_PATH,
     KAPTCHA_PATH,
     CATEGORY_PATH,
-    PRODUCT_ADD_PATH
+    PRODUCT_ADD_PATH,
+    IMAGE_PATH
 } from '../config/requestConfig'
 import { getRequest, getKaptchaRequest, postRequest } from '../request/index'
 import SelectModel from '../components/SelectModel.vue'
@@ -75,6 +87,8 @@ export default defineComponent({
     data () {
         return {
             product: {},
+            productImgList: [],
+            imgAddr: '',
             productCategoryList: [],
             productName: '',
             productCategory: {
@@ -121,11 +135,26 @@ export default defineComponent({
             this.promotionPrice = product.promotionPrice
             this.imgAdd = product.imgAdd
             this.productDesc = product.productDesc
+            if (product.imgAddr.length > 0) {
+                this.imgAddr = IMAGE_PATH + product.imgAddr;
+            }
+            if (product.productImgList.length > 0) {
+                this.productImgList = product.productImgList.map((item) => {
+                    return IMAGE_PATH + item.imgAddr;
+                })
+            }
+            this.productCategoryList = data.productCategoryList.map((item) => {
+                const newItem = {
+                    name: item.productCategoryName,
+                    id: item.productCategoryId
+                }
+                return newItem;
+            });
             const selectedCategory =
                 this.getSelectedProductCategory(
-                    product.productCategory?.productCategoryId,
+                    product.productCategory.productCategoryId,
                     this.productCategoryList
-                ) || {}
+                )
             this.productCategory = {
                 name: selectedCategory.name,
                 id: selectedCategory.id
@@ -146,7 +175,6 @@ export default defineComponent({
                 return newItem
             })
         },
-        //
         selectedCategoryOptionChange (selectedCategory) {
             this.productCategoryId = selectedCategory.id
         },
@@ -229,4 +257,31 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.columContianer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.title {
+  display: inline-block;
+  width: 100px;
+}
+.value {
+  display: flex;
+  flex: 1;
+}
+img {
+  margin-right: 10px;
+}
+.imgContainer {
+  display: flex;
+  flex-direction: column;
+}
+.imgDetail {
+  margin-right: 10px;
+  margin-top: 10px;
+}
 </style>
