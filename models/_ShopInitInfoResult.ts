@@ -2,7 +2,7 @@
 import { AreaType } from './AreaType';
 import { ShopCategory } from './ShopCategory';
 export interface nonnull_t{
-    shopCategoryList: ShopCategory.t[]
+    shopCategoryList: ShopCategory.nonnull_t[]
     success: boolean;
     areaList:AreaType.t[]
 }
@@ -12,7 +12,7 @@ export interface t{
     areaList?:AreaType.t[]
 }
 export interface safe_t{
-   readonly shopCategoryList: ShopCategory.t[]
+   readonly shopCategoryList: ShopCategory.safe_t[]
    readonly success: boolean;
    readonly areaList:AreaType.t[]
 }

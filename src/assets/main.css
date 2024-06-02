@@ -150,7 +150,7 @@ tr:last-child td:last-child {
   margin-top: 10px;
 }
 
-.commonPageContainer {
+.common-page-container {
   display: flex;
   flex-direction: column;
   width: 100%;

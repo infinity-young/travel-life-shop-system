@@ -15,7 +15,7 @@ export interface nonnull_t{
     advice: string,
     area:AreaType.nonnull_t,
     owner: PersonType.nonnull_t,
-    ShopCategory: ShopCategory.nonnull_t
+    shopCategory: ShopCategory.nonnull_t
 }
 export interface t{
     shopId?: number,
@@ -31,7 +31,7 @@ export interface t{
     advice?: string,
     area?:AreaType.t,
     owner?: PersonType.t,
-    ShopCategory?: ShopCategory.t
+    shopCategory?: ShopCategory.t
 }
 export interface safe_t{
    readonly shopId: number,
@@ -47,7 +47,7 @@ export interface safe_t{
    readonly advice: string,
    readonly area:AreaType.nonnull_t,
    readonly owner: PersonType.safe_t,
-   readonly ShopCategory: ShopCategory.safe_t
+   readonly shopCategory: ShopCategory.safe_t
 }
 export function from(m: t): safe_t{
     const u = m == null ? ({} as t) : m;
@@ -63,7 +63,8 @@ export function from(m: t): safe_t{
     s.lastEditTime = u.lastEditTime || 0;
     s.enableStatus = u.enableStatus || false;
     s.advice = u.advice || '';
-    s.owner = u.owner==null?PersonType.from(<PersonType.t>{}):PersonType.from(u.owner);
-    s.ShopCategory = u.ShopCategory == null ? ShopCategory.from(<ShopCategory.t>{}) : ShopCategory.from(u.ShopCategory);
+    s.owner = u.owner == null ? PersonType.from(<PersonType.t>{}) : PersonType.from(u.owner);
+    s.area = u.area == null ? AreaType.from(<AreaType.t>{}) : AreaType.from(u.area);
+    s.shopCategory = u.shopCategory == null ? ShopCategory.from(<ShopCategory.t>{}) : ShopCategory.from(u.shopCategory);
     return s;
 }

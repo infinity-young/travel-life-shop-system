@@ -1,50 +1,60 @@
 <template>
-  <BackModel title="商铺信息" />
-  <div>
+  <div class="common-page-container">
+    <div class="title-text">商铺信息编辑</div>
     <form>
-      <div>
-        <label for="shopName">商铺名称：</label>
-        <input type="text" id="shopName" v-model="shopName" />
+      <div class="columContianer">
+        <label for="shopName" class="title">商铺名称</label>
+        <input type="text" id="shopName" v-model="shopName" class="value" />
       </div>
-      <div>
-        <label for="shopArea1">商铺分类：</label>
+      <div class="columContianer">
+        <label for="shopArea1" class="title">商铺分类</label>
         <SelectModel
           :options="shopCategoryList"
           :selectedOption="shopCategory"
           v-on:update:selectedOption="selectedCategoryOptionChange"
+          class="value"
         />
       </div>
-      <div>
-        <label for="shopArea">所属区域：</label>
+      <div class="columContianer">
+        <label for="shopArea" class="title">所属区域</label>
         <SelectModel
+          class="value"
           :options="areaList"
           :selectedOption="area"
           v-on:update:selectedOption="selectedAreaOptionChange"
         />
       </div>
-      <div>
-        <label for="shopAddr">详细地址：</label>
-        <input type="text" id="shopAddr" v-model="shopAddr" />
+      <div class="columContianer">
+        <label for="shopAddr" class="title">详细地址</label>
+        <input type="text" id="shopAddr" v-model="shopAddr" class="value" />
       </div>
-      <div>
-        <label for="phone">联系电话：</label>
-        <input type="text" id="phone" v-model="phone" />
+      <div class="columContianer">
+        <label for="phone" class="title">联系电话</label>
+        <input type="text" id="phone" v-model="phone" class="value" />
       </div>
-      <div>
-        <label for="shopImage">缩略图：</label>
-        <input type="file" id="shopImage" @change="handleImageChange" />
-        <!-- <img :src="shop.shopImg" v-if="shop.shopImg" /> 是否需要添加展示模块-->
+      <div class="columContianer">
+        <label for="shopImage" class="title">现缩略图</label>
+        <input type="file" id="shopImage" @change="handleImageChange" class="value" />
       </div>
-      <div>
-        <label for="shopDesc">店铺简介：</label>
-        <input type="text" id="shopDesc" v-model="shopDesc" />
+      <div class="columContianer">
+        <label class="title">原缩略图</label>
+        <img :src="shopImg" v-if="shopImg" class="value" />
       </div>
-      <div>
-        <label for="shopDesc">验证码</label>
-        <img :src="kaptchaUrl" />
-        <input type="text" id="shopDesc" v-model="kaptchaInput" />
+      <div class="columContianer">
+        <label for="shopDesc" class="title">店铺简介</label>
+        <input type="text" id="shopDesc" v-model="shopDesc" class="value" />
       </div>
-      <button type="submit" @click.prevent="submitShop">提交</button>
+      <div class="columContianer">
+        <label for="shopDesc" class="title">验证码</label>
+        <div class="value">
+          <img :src="kaptchaUrl" />
+          <input type="text" id="shopDesc" v-model="kaptchaInput" />
+        </div>
+      </div>
+      <div class="footer-container">
+        <button type="submit" @click.prevent="submitShop">提交</button>
+        <BackModel />
+      </div>
     </form>
   </div>
 </template>
@@ -56,7 +66,8 @@ import {
     SHOP_PATH,
     KAPTCHA_PATH,
     MODITY_SHOP_PATH,
-    ADD_SHOP_PATH
+    ADD_SHOP_PATH,
+    IMAGE_PATH
 } from '../config/requestConfig'
 import SelectModel from '../components/SelectModel.vue'
 import BackModel from '../components/BackModel.vue'
@@ -71,6 +82,7 @@ export default defineComponent({
     },
     data () {
         return {
+            shopImg: "",
             shop: {},
             areaList: [],
             shopCategoryList: [],
@@ -111,7 +123,7 @@ export default defineComponent({
                 }
                 return newItem
             })
-            this.areaList = data?.data?.areaList?.map((item) => {
+            this.areaList = data.areaList.map((item) => {
                 const newItem = {
                     name: item.areaName,
                     id: item.areaId
@@ -124,12 +136,13 @@ export default defineComponent({
             const params = {
                 shopId: this.shopId
             }
-            const data = await getRequest(SHOP_PATH, params)
-            const shop = data.shop || {}
+            const data = ShopDetailResult.from(await getRequest(SHOP_PATH, params));
+            const shop = data.shop
             this.shopName = shop.shopName
             this.shopDesc = shop.shopDesc
             this.shopAddr = shop.shopAddr
             this.phone = shop.phone
+            this.shopImg = IMAGE_PATH + shop.shopImg;
             this.shopCategory = {
                 name: shop.shopCategory.shopCategoryName,
                 id: shop.shopCategory.shopCategoryId
@@ -150,7 +163,7 @@ export default defineComponent({
         },
         //获取验证码信息
         async refreshkaptcha () {
-            const kaptchaData = ShopDetailResult.from(await getKaptchaRequest(KAPTCHA_PATH));
+            const kaptchaData = await getKaptchaRequest(KAPTCHA_PATH);
             this.kaptchaUrl = kaptchaData.url
             this.kaptchaCode = kaptchaData.kaptchaCode
         },
@@ -213,4 +226,23 @@ export default defineComponent({
 })
 </script>
 <style scoped>
+.columContianer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.title {
+  display: inline-block;
+  width: 100px;
+}
+.value {
+  display: flex;
+  flex: 1;
+}
+img {
+  margin-right: 10px;
+}
 </style>

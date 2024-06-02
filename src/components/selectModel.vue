@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <select v-model="localSelectedOption">
+  <div class="optionContainer">
+    <select v-model="localSelectedOption" class="optionContainer">
       <option v-for="option in options" :value="option" :key="option.id">{{ option.name }}</option>
     </select>
   </div>
@@ -8,28 +8,34 @@
 
 <script>
 export default {
-  props: {
-    options: {
-      type: Array,
-      required: true
+    props: {
+        options: {
+            type: Array,
+            required: true
+        },
+        selectedOption: {
+            type: Object,
+            required: true
+        }
     },
-    selectedOption: {
-      type: Object,
-      required: true
-    }
-  },
-  data() {
-    return {
-      localSelectedOption: this.selectedOption || this.selectedOption?.[0]
-    }
-  },
-  watch: {
-    localSelectedOption(newValue) {
-      this.$emit('update:selectedOption', newValue)
+    data () {
+        return {
+            localSelectedOption: this.selectedOption || this.selectedOption?.[0]
+        }
     },
-    selectedOption(newValue) {
-      this.localSelectedOption = newValue
+    watch: {
+        localSelectedOption (newValue) {
+            this.$emit('update:selectedOption', newValue)
+        },
+        selectedOption (newValue) {
+            this.localSelectedOption = newValue
+        }
     }
-  }
 }
 </script>
+<style scoped>
+.optionContainer {
+  display: flex;
+  flex: 1;
+}
+</style>

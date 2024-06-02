@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="goBack" class="back-link">
-      <button>返回</button>
+      <button type="button">返回</button>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="commonPageContainer">
+  <div class="common-page-container">
     <span class="title-text">商品详情</span>
     <div>
       <form>
