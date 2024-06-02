@@ -33,12 +33,12 @@
         <input type="text" id="phone" v-model="phone" class="value" />
       </div>
       <div class="columContianer">
-        <label for="shopImage" class="title">现缩略图</label>
+        <label for="shopImage" class="title">缩略图</label>
         <input type="file" id="shopImage" @change="handleImageChange" class="value" />
       </div>
-      <div class="columContianer">
+      <div class="columContianer" v-if="shopImg.length > 0">
         <label class="title">原缩略图</label>
-        <img :src="shopImg" v-if="shopImg" class="value" />
+        <img :src="shopImg" class="value" />
       </div>
       <div class="columContianer">
         <label for="shopDesc" class="title">店铺简介</label>
@@ -142,7 +142,9 @@ export default defineComponent({
             this.shopDesc = shop.shopDesc
             this.shopAddr = shop.shopAddr
             this.phone = shop.phone
-            this.shopImg = IMAGE_PATH + shop.shopImg;
+            if (shop.shopImg.length > 0) {
+                this.shopImg = IMAGE_PATH + shop.shopImg;
+            }
             this.shopCategory = {
                 name: shop.shopCategory.shopCategoryName,
                 id: shop.shopCategory.shopCategoryId
