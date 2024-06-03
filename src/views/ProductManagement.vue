@@ -1,39 +1,41 @@
 <template>
   <div class="container">
     <span class="title-text">商品管理</span>
-    <div class="table-header">
-      <div>商品名称</div>
-      <div>操作</div>
-    </div>
     <InfiniteList
       class="listContainer"
       :data="productList"
       :width="'100%'"
-      :height="800"
-      :itemSize="200"
+      :height="1000"
+      :itemSize="620"
       :debug="debug"
       v-slot="{ item }"
       ref="infiniteList"
       @scroll="checkScroll"
     >
-      <div>{{ item.productName }}</div>
-      <div>
-        <button @click="editProduct(item.productId)" class="editable-button">编辑</button>
-        <button
-          @click="offProduct(item.productId)"
-          class="editable-button"
-          v-if="item.enableStatus == 1"
-        >
-          下架
-        </button>
-        <button
-          @click="onProduct(item.productId)"
-          class="editable-button"
-          v-if="item.enableStatus == 0"
-        >
-          上架
-        </button>
-        <button @click="previewProduct(item.productId)" class="editable-button">预览</button>
+      <div class="card">
+        <img :src="item.imgAddr" />
+        <div class="descContainer">
+          <span class="title">{{ item.productName }}</span>
+          <span class="desc">{{ item.productDesc }}</span>
+        </div>
+        <div class="buttonContainer">
+          <button @click="editProduct(item.productId)" class="editable-button">编辑</button>
+          <button
+            @click="offProduct(item.productId)"
+            class="editable-button"
+            v-if="item.enableStatus == 1"
+          >
+            下架
+          </button>
+          <button
+            @click="onProduct(item.productId)"
+            class="editable-button"
+            v-if="item.enableStatus == 0"
+          >
+            上架
+          </button>
+          <button @click="previewProduct(item.productId)" class="editable-button">预览</button>
+        </div>
       </div>
     </InfiniteList>
     <div class="footer-container">
@@ -45,7 +47,7 @@
 <script>
 import { defineComponent } from 'vue'
 import router from '../router/index'
-import { PRODUCT_LIST_PATH, PRODUCT_MODIFY_PATH } from '../config/requestConfig'
+import { PRODUCT_LIST_PATH, PRODUCT_MODIFY_PATH, IMAGE_PATH } from '../config/requestConfig'
 import { postRequest } from '../request/index'
 import BackModel from '../components/BackModel.vue'
 import store from '../stores/index'
@@ -82,7 +84,12 @@ export default defineComponent({
             const url = PRODUCT_LIST_PATH + '?shopId=' + this.shopId
             await store.dispatch('shopList/fetchProductList', { url: url })
             const productList = store.getters['shopList/getProductList']
-            this.productList = productList
+            this.productList = productList.map((item) => {
+                return {
+                    ...item,
+                    imgAddr: IMAGE_PATH + item.imgAddr
+                }
+            })
         },
         //点击编辑
         editProduct (productId) {
@@ -159,6 +166,45 @@ export default defineComponent({
   align-items: center;
 }
 .listContainer {
-  background-color: aqua;
+  background-color: transparent;
+}
+.card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  background-color: aliceblue;
+}
+img {
+  height: auto;
+  width: 50%;
+  border-radius: 12px 0 0 12px;
+}
+.descContainer {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  padding-left: 12px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.title {
+  font-size: 26px;
+  color: #d46587;
+}
+.desc {
+  font-size: 16px;
+  color: #d3a8b5;
+}
+.buttonContainer {
+  display: flex;
+  width: 10%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 </style>

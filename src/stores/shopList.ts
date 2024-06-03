@@ -33,8 +33,8 @@ import { ProductListResult } from '../../models/ProductListResult'
       console.error(error)
     }
   },
-     async fetchMoreProductList({ commit},payload){
-      if(state.count<state.productList.length){
+    async fetchMoreProductList({ commit }, payload) {
+      if(state.count>state.productList.length){
         commit('setPageIndex',state.pageIndex+1)
         try {
           const params={
