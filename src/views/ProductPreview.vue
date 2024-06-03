@@ -1,21 +1,30 @@
 <template>
-  <span>Product Preview</span>
-  <BackModel :title="product.productName" />
-  <div>
-    <div class="header-image">
-      <img :src="headImage" alt="Header Image" />
-    </div>
-    <div>
-      <div class="price">
-        <span class="discount-price">¥{{ product.promotionPrice }}</span>
-        <del class="original-price">¥{{ product.normalPrice }}</del>
+  <button class="back" @click="goBack"></button>
+  <div class="common-page-container">
+    <div class="title-text">{{ product.productName }}</div>
+    <div class="card">
+      <div class="headerImage">
+        <img :src="headImage" alt="Header Image" />
       </div>
-      <span>{{ product.productDesc }}</span>
+      <div class="headContentContainer">
+        <div class="itemContainer">
+          <div class="title">原价</div>
+          <del class="originalPrice">¥{{ product.normalPrice }}</del>
+        </div>
+        <div class="itemContainer">
+          <div class="title">促销价</div>
+          <span class="discount-price">¥{{ product.promotionPrice }}</span>
+        </div>
+        <div class="itemContainer">
+          <div class="title">商品详情</div>
+          <span>{{ product.productDesc }}</span>
+        </div>
+      </div>
     </div>
   </div>
-  <div>
-    <span>酒店详情图片</span>
-    <div class="detail-images">
+  <div class="card">
+    <span class="detailTitle">商品详情图片</span>
+    <div class="detailImages">
       <img class="detail-image" v-for="image in detailImage" :src="image" :key="image" />
     </div>
   </div>
@@ -24,13 +33,9 @@
 import { defineComponent } from 'vue'
 import { PRODUCT_DETAIL_INFO_PATH, IMAGE_PATH } from '../config/requestConfig'
 import { getRequest } from '../request/index'
-import BackModel from '../components/BackModel.vue'
 import { ProductDetailResult } from '../../models/ProductDetailResult'
 
 export default defineComponent({
-    components: {
-        BackModel
-    },
     data () {
         return {
             product: {},
@@ -56,25 +61,66 @@ export default defineComponent({
             this.detailImage = data.product.productImgList.map((item) => {
                 return IMAGE_PATH + item.imgAddr
             })
+        },
+        goBack () {
+            this.$router.go(-1)
         }
     }
 })
 </script>
 <style scoped>
-.header-image {
-  width: 100vw;
-  height: 33vh;
-  overflow: hidden;
+.back {
+  background-image: url('../assets/back_gray_icon.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  width: 100px;
+  height: 50px;
+  background-color: transparent;
+}
+.back:active {
+  background-color: transparent;
+  box-shadow: revert;
+  transform: revert;
+}
+.card {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background-color: aliceblue;
+}
+.headerImage {
+  width: 100%;
+  height: auto;
+  border-radius: 12px 12px 0 0;
 }
 
-.header-image img {
+.headerImage img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  border-radius: 12px 12px 0 0;
 }
-.price {
+.headContentContainer {
   display: flex;
-  align-items: baseline;
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.itemContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.title {
+  width: 100px;
+  font-size: 20px;
 }
 
 .discount-price {
@@ -83,21 +129,33 @@ export default defineComponent({
   color: red;
 }
 
-.original-price {
-  margin-left: 10px;
+.originalPrice {
   font-size: 16px;
   color: #999;
   text-decoration: line-through;
 }
-.detail-image {
-  width: 100vw;
-  height: 33vh;
+
+.detailTitle {
+  display: flex;
+  justify-content: center;
+  border-radius: 12px 12px 0 0;
+  padding-top: 20px;
+  font-size: 20px;
+}
+.detailImages {
+  width: 100%;
+  height: auto;
   overflow: hidden;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
-.detail-image img {
+.detailImages img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  border-radius: 12px;
+  object-fit: fill;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 </style>
