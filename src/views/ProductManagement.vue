@@ -7,12 +7,11 @@
       :width="'100%'"
       :height="1000"
       :itemSize="620"
-      :debug="debug"
       v-slot="{ item }"
       ref="infiniteList"
       @scroll="checkScroll"
     >
-      <div class="card">
+      <div class="card" :key="item.productId">
         <img :src="item.imgAddr" />
         <div class="descContainer">
           <span class="title">{{ item.productName }}</span>
@@ -62,7 +61,6 @@ export default defineComponent({
         return {
             count: [],
             shopId: null,
-            productList: [],
             buttonStatus: null
         }
     },
@@ -75,6 +73,16 @@ export default defineComponent({
     beforeUnmount () {
         this.$el.removeEventListener('scroll', this.checkScroll)
     },
+    computed: {
+        // 使用 computed 属性来自动处理 productList 的更新
+        productList () {
+            return this.$store.state.shopList.productList.map(item => ({
+                ...item,
+                imgAddr: IMAGE_PATH + item.imgAddr,
+            }));
+        }
+    },
+
     methods: {
         fetchToken (url) {
             store.dispatch('common/fetchToken', { url: url })
@@ -83,13 +91,6 @@ export default defineComponent({
         async getProductList () {
             const url = PRODUCT_LIST_PATH + '?shopId=' + this.shopId
             await store.dispatch('shopList/fetchProductList', { url: url })
-            const productList = store.getters['shopList/getProductList']
-            this.productList = productList.map((item) => {
-                return {
-                    ...item,
-                    imgAddr: IMAGE_PATH + item.imgAddr
-                }
-            })
         },
         //点击编辑
         editProduct (productId) {
@@ -140,10 +141,8 @@ export default defineComponent({
         async loadMore () {
             const url = PRODUCT_LIST_PATH + '?shopId=' + this.shopId
             await store.dispatch('shopList/fetchMoreProductList', { url: url })
-            const productList = store.getters['shopList/getProductList']
-            this.productList = productList
         },
-        checkScroll (event) {
+        async checkScroll (event) {
             const { scrollTop, scrollHeight, clientHeight } = event.target
 
             if (scrollTop + clientHeight >= scrollHeight) {
@@ -151,6 +150,8 @@ export default defineComponent({
                 console.log('Scrolled to the end of the list')
                 // 此处向store中派发action，请求加载更多，然后将重新获取store中的List
                 this.loadMore()
+                this.$refs.infiniteList.$forceUpdate();
+
             }
         }
     }

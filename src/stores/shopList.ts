@@ -16,7 +16,11 @@ import { ProductListResult } from '../../models/ProductListResult'
     },
     setPageIndex(state,pageIndex){
       state.pageIndex=pageIndex
-    }
+   },
+   updateProductList(state, newProducts) {
+    // 使用 concat 合并数组，并将结果赋值回 state.productList
+    state.productList = state.productList.concat(newProducts);
+  }
   }
   const actions={
      async fetchProductList({ commit},payload) {
@@ -41,12 +45,12 @@ import { ProductListResult } from '../../models/ProductListResult'
               pageIndex:state.pageIndex,
               pageSize:state.pageSize
           }
-        const response = await getRequest(payload.url,params)
-        const currentProductList=state.productList.concat(response?.data?.productList)
-        commit('setProductList', currentProductList)
+          const response = await getRequest(payload.url, params)
+          const data = ProductListResult.from(response)
+          commit('updateProductList', data.productList);
       } catch (error) {
         console.error(error)
-      }
+        }
       }
      }
   }

@@ -73,6 +73,10 @@ export default defineComponent({
             this.categoryList = data.data
         },
         handleClick (category) {
+            if (!category) {
+                this.isAddNewCategory = false;
+                return;
+            }
             //删除相应的数据
             const url = REMOVE_CATEGORY_PATH + '?shopId=' + this.shopId
             //通过formdata的形式传参
