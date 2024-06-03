@@ -3,14 +3,14 @@
     <div class="title-text">欢迎来到travel life 商家系统</div>
     <div class="header-container">
       <span>{{ title }}</span>
-      <button @click="addShop">新增店铺</button>
+      <button @click="addShop">新增商店</button>
     </div>
     <table>
       <thead>
         <tr>
           <th>商店名称</th>
           <th>商店状态</th>
-          <th>商铺信息</th>
+          <th>商店信息</th>
           <th>商品管理</th>
           <th>类别管理</th>
         </tr>
@@ -60,11 +60,11 @@ export default defineComponent({
             this.title = "您好！" + data.user.name
         },
         addShop () {
-            //添加店铺,店铺编辑页的shopId设置为可选，使用店铺编辑页作为店铺新增页
+            //添加商店,商店编辑页的shopId设置为可选，使用商店编辑页作为商店新增页
             router.push({ name: 'shopdetail' })
         },
         goToShopDetail (shopId) {
-            //店铺编辑页
+            //商店编辑页
             router.push({ name: 'shopdetail', params: { shopId } })
         },
         goToProductManage (shopId) {

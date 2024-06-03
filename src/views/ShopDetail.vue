@@ -1,13 +1,13 @@
 <template>
   <div class="common-page-container">
-    <div class="title-text">商铺信息编辑</div>
+    <div class="title-text">商店信息编辑</div>
     <form>
       <div class="columContianer">
-        <label for="shopName" class="title">商铺名称</label>
+        <label for="shopName" class="title">商店名称</label>
         <input type="text" id="shopName" v-model="shopName" class="value" />
       </div>
       <div class="columContianer">
-        <label for="shopArea1" class="title">商铺分类</label>
+        <label for="shopArea1" class="title">商店分类</label>
         <SelectModel
           :options="shopCategoryList"
           :selectedOption="shopCategory"
@@ -41,7 +41,7 @@
         <img :src="shopImg" class="value" />
       </div>
       <div class="columContianer">
-        <label for="shopDesc" class="title">店铺简介</label>
+        <label for="shopDesc" class="title">商店简介</label>
         <input type="text" id="shopDesc" v-model="shopDesc" class="value" />
       </div>
       <div class="columContianer">
@@ -113,7 +113,7 @@ export default defineComponent({
         this.refreshkaptcha()
     },
     methods: {
-        //获取店铺基本信息
+        //获取商店基本信息
         async getShopInfo () {
             const data = ShopInitInfoResult.from(await getRequest(SHOP_INFO_PATH))
             this.shopCategoryList = data.shopCategoryList.map((item) => {
@@ -131,7 +131,7 @@ export default defineComponent({
                 return newItem
             })
         },
-        //获取店铺信息
+        //获取商店信息
         async getShop () {
             const params = {
                 shopId: this.shopId
@@ -154,7 +154,7 @@ export default defineComponent({
                 id: shop.area.areaId
             }
         },
-        //选择店铺图片
+        //选择商店图片
         handleImageChange (event) {
             this.img = event.target.files[0]
         },
@@ -180,9 +180,9 @@ export default defineComponent({
         //todo 两个post接口的图片还有问题
         //点击提交先校验验证码，验证码无误后再提交到后端
         submitShop () {
-            //校验验证码通过并有shopId则走店铺修改接口
+            //校验验证码通过并有shopId则走商店修改接口
             if ((this.kaptchaCode == this.kaptchaInput) & this.shopId) {
-                //提交店铺修改数据
+                //提交商店修改数据
                 const shopData = {
                     shopId: this.shopId,
                     shopName: this.shopName,
@@ -203,7 +203,7 @@ export default defineComponent({
                 formData.append('shopImg', this.img)
                 postRequest(MODITY_SHOP_PATH, formData)
             } else if (this.kaptchaCode == this.kaptchaInput) {
-                //如果验证码通过无shopId走添加店铺接口
+                //如果验证码通过无shopId走添加商店接口
                 const shopData = {
                     shopName: this.shopName,
                     shopAddr: this.shopAddr,
