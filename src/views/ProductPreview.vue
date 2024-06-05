@@ -24,7 +24,7 @@
     <div class="card">
       <span class="detailTitle">商品详情图片</span>
       <div class="detailImages">
-        <img class="detail-image" v-for="image in detailImage" :src="image" :key="image" />
+        <img v-for="image in detailImage" :src="image" :key="image" />
       </div>
     </div>
   </div>
