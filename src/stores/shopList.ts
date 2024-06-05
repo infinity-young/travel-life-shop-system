@@ -6,7 +6,7 @@ import { ProductListResult } from '../../models/ProductListResult'
     pageIndex:1,
     pageSize:2,
     count:0
-  }
+ }
  const mutations= {
     setProductList(state, productList) {
       state.productList = productList
@@ -26,11 +26,12 @@ import { ProductListResult } from '../../models/ProductListResult'
      async fetchProductList({ commit},payload) {
     try {
         const params={
-            pageIndex:state.pageIndex,
+            pageIndex:1,
             pageSize:state.pageSize
       }  
       const response:ProductListResult.t = await getRequest(payload.url, params);
       const data = ProductListResult.from(response)
+      commit('setPageIndex',1)
       commit('setProductList', data.productList)
       commit('setCount',data.count)
     } catch (error) {
