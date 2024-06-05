@@ -4,7 +4,7 @@
     <RecycleScroller
       class="listContainer"
       :items="productList"
-      :item-size="620"
+      :item-size="450"
       :width="'100%'"
       :height="'100%'"
       key-field="productId"
@@ -173,7 +173,7 @@ export default defineComponent({
 .card {
   display: flex;
   flex-direction: row;
-  width: 1000px;
+  width: 100%;
   height: 400px;
   border-radius: 12px;
   margin-bottom: 12px;
