@@ -13,7 +13,7 @@
         </div>
         <div class="itemContainer">
           <div class="title">促销价</div>
-          <span class="discount-price">¥{{ product.promotionPrice }}</span>
+          <span class="discountPrice">¥{{ product.promotionPrice }}</span>
         </div>
         <div class="itemContainer">
           <div class="title">商品详情</div>
@@ -21,11 +21,11 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="card">
-    <span class="detailTitle">商品详情图片</span>
-    <div class="detailImages">
-      <img class="detail-image" v-for="image in detailImage" :src="image" :key="image" />
+    <div class="card">
+      <span class="detailTitle">商品详情图片</span>
+      <div class="detailImages">
+        <img class="detail-image" v-for="image in detailImage" :src="image" :key="image" />
+      </div>
     </div>
   </div>
 </template>
@@ -123,7 +123,7 @@ export default defineComponent({
   font-size: 20px;
 }
 
-.discount-price {
+.discountPrice {
   font-size: 24px;
   font-weight: bold;
   color: red;
