@@ -1,42 +1,43 @@
 <template>
   <div class="container">
     <span class="title-text">商品管理</span>
-    <InfiniteList
+    <RecycleScroller
       class="listContainer"
-      :data="productList"
+      :items="productList"
+      :item-size="620"
       :width="'100%'"
-      :height="1000"
-      :itemSize="620"
-      v-slot="{ item }"
-      ref="infiniteList"
+      :height="'100%'"
+      key-field="productId"
       @scroll="checkScroll"
     >
-      <div class="card" :key="item.productId">
-        <img :src="item.imgAddr" />
-        <div class="descContainer">
-          <span class="title">{{ item.productName }}</span>
-          <span class="desc">{{ item.productDesc }}</span>
+      <template #default="{ item }">
+        <div class="card" :key="item.productId">
+          <img :src="item.imgAddr" />
+          <div class="descContainer">
+            <span class="title">{{ item.productName }}</span>
+            <span class="desc">{{ item.productDesc }}</span>
+          </div>
+          <div class="buttonContainer">
+            <button @click="editProduct(item.productId)" class="editable-button">编辑</button>
+            <button
+              @click="offProduct(item.productId)"
+              class="editable-button"
+              v-if="item.enableStatus == 1"
+            >
+              下架
+            </button>
+            <button
+              @click="onProduct(item.productId)"
+              class="editable-button"
+              v-if="item.enableStatus == 0"
+            >
+              上架
+            </button>
+            <button @click="previewProduct(item.productId)" class="editable-button">预览</button>
+          </div>
         </div>
-        <div class="buttonContainer">
-          <button @click="editProduct(item.productId)" class="editable-button">编辑</button>
-          <button
-            @click="offProduct(item.productId)"
-            class="editable-button"
-            v-if="item.enableStatus == 1"
-          >
-            下架
-          </button>
-          <button
-            @click="onProduct(item.productId)"
-            class="editable-button"
-            v-if="item.enableStatus == 0"
-          >
-            上架
-          </button>
-          <button @click="previewProduct(item.productId)" class="editable-button">预览</button>
-        </div>
-      </div>
-    </InfiniteList>
+      </template>
+    </RecycleScroller>
     <div class="footer-container">
       <button @click="goBack">返回</button>
       <button @click.prevent="add">新增</button>
@@ -50,12 +51,13 @@ import { PRODUCT_LIST_PATH, PRODUCT_MODIFY_PATH, IMAGE_PATH } from '../config/re
 import { postRequest } from '../request/index'
 import BackModel from '../components/BackModel.vue'
 import store from '../stores/index'
-import InfiniteList from 'vue3-infinite-list'
+import { RecycleScroller } from 'vue-virtual-scroller';
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
 export default defineComponent({
     components: {
         BackModel,
-        InfiniteList
+        RecycleScroller
     },
     data () {
         return {
@@ -147,11 +149,8 @@ export default defineComponent({
 
             if (scrollTop + clientHeight >= scrollHeight) {
                 this.$emit('scroll', event);
-                console.log('Scrolled to the end of the list')
                 // 此处向store中派发action，请求加载更多，然后将重新获取store中的List
                 this.loadMore()
-                this.$refs.infiniteList.$forceUpdate();
-
             }
         }
     }
@@ -168,11 +167,14 @@ export default defineComponent({
 }
 .listContainer {
   background-color: transparent;
+  width: 100%;
+  height: 100%;
 }
 .card {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 1000px;
+  height: 400px;
   border-radius: 12px;
   margin-bottom: 12px;
   margin-top: 12px;
