@@ -74,6 +74,7 @@ import BackModel from '../components/BackModel.vue'
 import store from '../stores/index'
 import { ShopInitInfoResult } from '../../models/ShopInitInfoResult'
 import { ShopDetailResult } from '../../models/ShopDetailResult'
+import { useToast } from 'vue-toastification'
 
 export default defineComponent({
     components: {
@@ -107,8 +108,6 @@ export default defineComponent({
         this.shopId = this.$route.params.shopId
         this.getShopInfo()
         this.getShop()
-        // 获取token信息 todo token解析及token提交相关
-        // this.fetchToken()
         //获取验证码信息
         this.refreshkaptcha()
     },
@@ -177,11 +176,11 @@ export default defineComponent({
         selectedAreaOptionChange (option) {
             this.areaId = option.id
         },
-        //todo 两个post接口的图片还有问题
         //点击提交先校验验证码，验证码无误后再提交到后端
         submitShop () {
+            const toast = useToast()
             //校验验证码通过并有shopId则走商店修改接口
-            if ((this.kaptchaCode == this.kaptchaInput) & this.shopId) {
+            if ((this.kaptchaCode == this.kaptchaInput) && this.shopId) {
                 //提交商店修改数据
                 const shopData = {
                     shopId: this.shopId,
@@ -201,7 +200,16 @@ export default defineComponent({
                 formData.append('shopStr', JSON.stringify(shopData))
                 //头图的传递还需要调试
                 formData.append('shopImg', this.img)
-                postRequest(MODITY_SHOP_PATH, formData)
+                postRequest(MODITY_SHOP_PATH, formData).then((res) => {
+                    if (res.data?.success) {
+                        //修改店铺成功
+                        toast.success("修改店铺成功");
+                        this.getShop()
+                    } else {
+                        //修改店铺失败
+                        toast.error("修改店铺失败")
+                    }
+                })
             } else if (this.kaptchaCode == this.kaptchaInput) {
                 //如果验证码通过无shopId走添加商店接口
                 const shopData = {
@@ -221,7 +229,17 @@ export default defineComponent({
                 formData.append('shopStr', JSON.stringify(shopData))
                 //头图的传递还需要调试
                 formData.append('shopImg', this.img)
-                postRequest(ADD_SHOP_PATH, formData)
+                postRequest(ADD_SHOP_PATH, formData).then((res) => {
+                    if (res.data?.success) {
+                        //添加店铺成功
+                        toast.success("添加店铺成功")
+                        this.$router.go(-1)
+
+                    } else {
+                        //添加店铺失败
+                        toast.error("添加店铺失败")
+                    }
+                })
             }
         }
     }

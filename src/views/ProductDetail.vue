@@ -79,6 +79,7 @@ import { getRequest, getKaptchaRequest, postRequest } from '../request/index'
 import SelectModel from '../components/SelectModel.vue'
 import store from '../stores/index'
 import { ProductDetailResult } from '../../models/ProductDetailResult'
+import { useToast } from 'vue-toastification'
 
 export default defineComponent({
     components: {
@@ -199,6 +200,7 @@ export default defineComponent({
         },
         //提交修改信息
         submitProductModify () {
+            const toast = useToast();
             if (this.kaptchaCode === this.kaptchaInput && this.productId) {
                 const data = {
                     productName: this.productName,
@@ -221,7 +223,16 @@ export default defineComponent({
                     formData.append(key, this.productImageList[i])
                 }
                 const url = PRODUCT_MODIFY_PATH + '?shopId=' + this.shopId
-                postRequest(url, formData)
+                postRequest(url, formData).then((res) => {
+                    if (res.data?.success) {
+                        //编辑商品信息成功
+                        toast.success("编辑商品信息成功");
+                        this.getProductInfo()
+                    } else {
+                        //编辑商品信息失败
+                        toast.error("编辑商品信息失败")
+                    }
+                })
             } else if (this.kaptchaCode === this.kaptchaInput) {
                 //如果有productid则为修改，否则为新增商品PRODUCT_ADD_PATH
                 const data = {
@@ -244,7 +255,17 @@ export default defineComponent({
                     formData.append(key, this.productImageList[i])
                 }
                 const url = PRODUCT_ADD_PATH + '?shopId=' + this.shopId
-                postRequest(url, formData)
+                postRequest(url, formData).then((res) => {
+                    if (res.data?.success) {
+                        //新增商品信息成功
+                        toast.success("新增商品信息成功");
+                        this.getProductInfo()
+                    } else {
+                        //新增商品信息失败
+                        toast.error("新增商品信息失败")
+                    }
+                }
+                )
             }
         },
         //返回上一个页面

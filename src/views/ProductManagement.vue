@@ -53,6 +53,7 @@ import BackModel from '../components/BackModel.vue'
 import store from '../stores/index'
 import { RecycleScroller } from 'vue-virtual-scroller';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
+import { useToast } from 'vue-toastification'
 
 export default defineComponent({
     components: {
@@ -101,6 +102,7 @@ export default defineComponent({
         },
         //点击下架
         offProduct (productId) {
+            const toast = useToast();
             //以formdata的形式提交数据
             const data = {
                 productId: productId,
@@ -111,9 +113,19 @@ export default defineComponent({
             //添加状态信息
             formData.append('statusChange', true)
             const url = PRODUCT_MODIFY_PATH + '?shopId=' + this.shopId
-            postRequest(url, formData)
+            postRequest(url, formData).then((res) => {
+                if (res.data?.success) {
+                    //下架成功
+                    toast.success("下架成功");
+                    this.getProductList();
+                } else {
+                    //下架失败
+                    toast.error("下架失败")
+                }
+            })
         },
         onProduct (productId) {
+            const toast = useToast();
             //以formdata的形式提交数据
             const data = {
                 productId: productId,
@@ -124,7 +136,16 @@ export default defineComponent({
             //添加状态信息
             formData.append('statusChange', true)
             const url = PRODUCT_MODIFY_PATH + '?shopId=' + this.shopId
-            postRequest(url, formData)
+            postRequest(url, formData).then((res) => {
+                if (res.data?.success) {
+                    //上架成功
+                    toast.success("上架成功");
+                    this.getProductList();
+                } else {
+                    //上架失败
+                    toast.error("上架失败")
+                }
+            })
         },
         //点击预览
         previewProduct (productId) {
@@ -149,7 +170,6 @@ export default defineComponent({
 
             if (scrollTop + clientHeight >= scrollHeight) {
                 this.$emit('scroll', event);
-                // 此处向store中派发action，请求加载更多，然后将重新获取store中的List
                 this.loadMore()
             }
         }
