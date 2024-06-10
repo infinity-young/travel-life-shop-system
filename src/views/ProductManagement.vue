@@ -2,6 +2,7 @@
   <div class="container">
     <span class="title-text">商品管理</span>
     <RecycleScroller
+      v-if="productList.length > 0"
       class="listContainer"
       :items="productList"
       :item-size="450"
@@ -38,6 +39,7 @@
         </div>
       </template>
     </RecycleScroller>
+    <div v-if="productList.length === 0" class="noContent">暂无数据</div>
     <div class="footer-container">
       <button @click="goBack">返回</button>
       <button @click.prevent="add">新增</button>
@@ -64,6 +66,7 @@ export default defineComponent({
         return {
             count: [],
             shopId: null,
+            noMoreData: false,
             buttonStatus: null
         }
     },
@@ -171,6 +174,10 @@ export default defineComponent({
             if (scrollTop + clientHeight >= scrollHeight) {
                 this.$emit('scroll', event);
                 this.loadMore()
+            } else if (!this.noMoreData) {
+                const toast = useToast();
+                toast.success("已无更多数据");
+                this.noMoreData = true;
             }
         }
     }
@@ -229,5 +236,11 @@ img {
   align-items: center;
   padding-bottom: 20px;
   padding-top: 20px;
+}
+.noContent {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 }
 </style>
