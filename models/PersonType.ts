@@ -1,2 +1,2 @@
-import * as PersonType from './_PersonType.ts'
+import * as PersonType from './_PersonType'
 export {PersonType}
