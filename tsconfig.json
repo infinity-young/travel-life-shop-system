@@ -1,8 +1,7 @@
 {
-  "files": [],
   "compilerOptions": {
     "types": ["vuex"],
-    "moduleResolution": "classic",
+    "moduleResolution": "node",
     "noEmit": true, // 或者 "emitDeclarationOnly": true
     "allowImportingTsExtensions": true
   },
@@ -18,6 +17,7 @@
     }
   ]
 }
+
 // 当前镜像为
 // npm config get registry
 // https://registry.npmjs.org/
