@@ -13,4 +13,4 @@ RUN npm run build
 # 暴露容器的 5173 端口
 EXPOSE 5173
 # 运行 Vue 应用
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev"]
