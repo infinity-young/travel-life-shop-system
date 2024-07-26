@@ -13,6 +13,10 @@ export default defineConfig({
     vue(),
     vueJsx(),
   ],
+  server: {
+    host: '0.0.0.0',
+    port: 5173, // 可根据实际需求修改端口号
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
