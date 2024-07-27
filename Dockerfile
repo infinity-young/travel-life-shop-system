@@ -12,5 +12,9 @@ COPY . .
 RUN npm run build
 # 暴露容器的 5173 端口
 EXPOSE 5173
-# 运行 Vue 应用
-CMD ["npm", "run", "dev"]
+# 使用 Nginx 作为基础镜像
+FROM nginx:alpine
+# 拷贝 Nginx 配置文件到容器中
+COPY nginx.conf /etc/nginx/nginx.conf
+# 拷贝构建后的文件到 Nginx 服务器的默认目录
+COPY --from=build /app/dist /usr/share/nginx/html/app
