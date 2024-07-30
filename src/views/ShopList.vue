@@ -38,7 +38,7 @@ import { getRequest } from '../request/index'
 import { SHOP_LIST_PATH } from '../config/requestConfig'
 import router from '../router/index'
 import store from '../stores/index'
-import { ShopListResult } from '../../models/ShopListResult.ts'
+import { ShopListResult } from '../../models/ShopListResult'
 
 export default defineComponent({
     data () {
