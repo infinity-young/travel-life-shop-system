@@ -1,8 +1,8 @@
 // 根据环境变量判断使用哪个后端地址
 // 开发环境: http://localhost:8080/basic-webapp
 // 生产环境(Docker): /api
-export const BATH_PATH = import.meta.env.PROD ? '/api' : 'http://localhost:8080/basic-webapp'
-export const IMAGE_PATH = import.meta.env.PROD ? '/api/frontend/' : 'http://localhost:8080/basic-webapp/frontend/'
+export const BATH_PATH = import.meta.env.PROD ? '/api' : 'http://localhost:8080'
+export const IMAGE_PATH = import.meta.env.PROD ? '/api/frontend/' : 'http://localhost:8080/frontend/'
 export const LOGIN_PATH='/local/logincheckend'
 export const MODIFY_PASSWORD_PATH='/local/changelocalpwdend'
 export const SHOP_LIST_PATH='/shopadmin/getshoplistend'
