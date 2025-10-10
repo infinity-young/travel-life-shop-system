@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # 后端服务
+  backend:
+    image: your-backend-image  # 替换为你的后端镜像名
+    container_name: backend
+    ports:
+      - "8080:8080"
+    networks:
+      - travel-network
+
+  # 前端服务1 - shop系统
+  frontend-shop:
+    image: travel-life-shop-system
+    container_name: frontend-shop
+    ports:
+      - "5173:5173"
+    networks:
+      - travel-network
+    depends_on:
+      - backend
+
+  # 前端服务2 - 根据实际情况修改
+  frontend-admin:
+    image: your-frontend-admin-image  # 替换为你的第二个前端镜像名
+    container_name: frontend-admin
+    ports:
+      - "5174:5173"
+    networks:
+      - travel-network
+    depends_on:
+      - backend
+
+  # 前端服务3 - 根据实际情况修改
+  frontend-user:
+    image: your-frontend-user-image  # 替换为你的第三个前端镜像名
+    container_name: frontend-user
+    ports:
+      - "5175:5173"
+    networks:
+      - travel-network
+    depends_on:
+      - backend
+
+networks:
+  travel-network:
+    driver: bridge
+
